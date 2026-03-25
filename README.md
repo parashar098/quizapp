@@ -148,7 +148,11 @@ Base URL: http://localhost:5001/api
 
 ### Auth
 - POST /auth/register
+- <img width="1057" height="820" alt="image" src="https://github.com/user-attachments/assets/80d7ed51-8065-4a44-aed3-03fd26d81762" />
+
 - POST /auth/login
+- <img width="1111" height="792" alt="image" src="https://github.com/user-attachments/assets/c3cd5d19-4417-4e51-9e5b-29676809f68c" />
+
 - POST /auth/logout
 
 ### Quiz

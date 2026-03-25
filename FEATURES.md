@@ -1,4 +1,4 @@
-# QuizMaster - Complete Feature List
+# GLA Exam - Complete Feature List
 
 ## Authentication & Authorization
 
@@ -178,7 +178,7 @@
 
 ### ✅ Navigation
 - **Navbar**:
-  - QuizMaster branding
+  - GLA Exam branding
   - User profile display
   - Logout button
   - Sticky positioning

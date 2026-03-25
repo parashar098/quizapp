@@ -1,10 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User } from '@supabase/supabase-js';
-import { supabase, Profile } from '../lib/supabase';
+import { authAPI } from '../lib/api';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'teacher' | 'student';
+}
 
 interface AuthContextType {
   user: User | null;
-  profile: Profile | null;
+  profile: User | null;
   loading: boolean;
   signUp: (email: string, password: string, name: string, role: 'teacher' | 'student') => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
@@ -23,82 +29,112 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      } else {
-        setLoading(false);
+    // Check if user is already logged in
+    const token = localStorage.getItem('authToken');
+    const storedUser = localStorage.getItem('user');
+    if (token && storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+        setProfile(JSON.parse(storedUser));
+      } catch (e) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
       }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-        } else {
-          setProfile(null);
-          setLoading(false);
-        }
-      })();
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
-
-    if (error) {
-      console.error('Error fetching profile:', error);
-    } else {
-      setProfile(data);
     }
     setLoading(false);
-  };
+  }, []);
 
   const signUp = async (email: string, password: string, name: string, role: 'teacher' | 'student') => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    try {
+      console.log('[AuthContext] Signup request:', { email, name, role });
+      const response = await authAPI.register({ email, password, name, role });
+      console.log('[AuthContext] Signup response:', response.data);
+      
+      const { token, user: userData } = response.data;
 
-    if (error) throw error;
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('user', JSON.stringify(userData));
 
-    if (data.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          name,
-          role,
-        });
-
-      if (profileError) throw profileError;
+      setUser(userData);
+      setProfile(userData);
+      
+      console.log('[AuthContext] ✅ Signup successful, user state updated');
+    } catch (error: any) {
+      console.error('[AuthContext] ❌ Signup error:', error);
+      
+      // Extract error message from various sources
+      let errorMessage = 'Registration failed';
+      
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
+      console.error('[AuthContext] Error to throw:', errorMessage);
+      
+      // Throw as Error object (not just string)
+      const err = new Error(errorMessage);
+      Object.assign(err, { response: error.response });
+      throw err;
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      console.log('[AuthContext] Login request:', { email });
+      const response = await authAPI.login({ email, password });
+      console.log('[AuthContext] Login response:', response.data);
+      
+      const { token, user: userData } = response.data;
 
-    if (error) throw error;
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      setUser(userData);
+      setProfile(userData);
+      
+      console.log('[AuthContext] ✅ Login successful, user state updated');
+    } catch (error: any) {
+      console.error('[AuthContext] ❌ Login error:', error);
+      
+      // Extract error message
+      let errorMessage = 'Login failed';
+      
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
+      console.error('[AuthContext] Error to throw:', errorMessage);
+      
+      // Throw as Error object
+      const err = new Error(errorMessage);
+      Object.assign(err, { response: error.response });
+      throw err;
+    }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      setProfile(null);
+      setUser(null);
+    }
   };
 
   const value = {

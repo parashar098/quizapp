@@ -1,58 +1,74 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { Landing } from './pages/Landing';
-import { Login } from './pages/Login';
-import { Signup } from './pages/Signup';
-import { TeacherDashboard } from './pages/TeacherDashboard';
-import { StudentDashboard } from './pages/StudentDashboard';
+import { ThemeProvider } from './contexts/ThemeContext';
+import type { Page } from './types/navigation';
 
-type Page = 'landing' | 'login' | 'signup';
+const Landing = lazy(() => import('./pages/Landing').then((module) => ({ default: module.Landing })));
+const Login = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })));
+const Signup = lazy(() => import('./pages/Signup').then((module) => ({ default: module.Signup })));
+const TeacherDashboard = lazy(() => import('./pages/TeacherDashboard').then((module) => ({ default: module.TeacherDashboard })));
+const StudentDashboard = lazy(() => import('./pages/StudentDashboard').then((module) => ({ default: module.StudentDashboard })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then((module) => ({ default: module.AdminDashboard })));
+const ManageTeachers = lazy(() => import('./pages/ManageTeachers').then((module) => ({ default: module.ManageTeachers })));
+const ManageStudents = lazy(() => import('./pages/ManageStudents').then((module) => ({ default: module.ManageStudents })));
+const Profile = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })));
+
+const AppLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500">
+    <div className="text-center">
+      <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse shadow-glass">
+        <span className="text-white font-bold text-2xl">Q</span>
+      </div>
+      <p className="text-white/90">Loading GLA Exam...</p>
+    </div>
+  </div>
+);
 
 function AppContent() {
   const { user, profile, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState<Page>('landing');
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <span className="text-white font-bold text-2xl">Q</span>
-          </div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
+    return <AppLoader />;
   }
 
-  if (user && profile) {
-    if (profile.role === 'teacher') {
-      return <TeacherDashboard />;
-    } else {
-      return <StudentDashboard />;
-    }
-  }
+  return (
+    <Suspense fallback={<AppLoader />}>
+      {/* If user is logged in, show appropriate dashboard */}
+      {user && profile ? (
+        <>
+          {currentPage === 'profile' && <Profile onNavigate={() => setCurrentPage('landing')} />}
 
-  if (currentPage === 'landing') {
-    return <Landing onNavigate={setCurrentPage} />;
-  }
+          {profile.role === 'admin' && (
+            <>
+              {(currentPage === 'teachers' || currentPage === 'manage-teachers') && <ManageTeachers onNavigate={setCurrentPage} />}
+              {(currentPage === 'students' || currentPage === 'manage-students') && <ManageStudents onNavigate={setCurrentPage} />}
+              {(currentPage === 'analytics' || currentPage === 'quiz-monitoring' || currentPage === 'quizzes' || currentPage === 'dashboard') && <AdminDashboard onNavigate={setCurrentPage} />}
+            </>
+          )}
 
-  if (currentPage === 'login') {
-    return <Login onNavigate={setCurrentPage} />;
-  }
-
-  if (currentPage === 'signup') {
-    return <Signup onNavigate={setCurrentPage} />;
-  }
-
-  return null;
+          {profile.role === 'teacher' && <TeacherDashboard onNavigate={setCurrentPage} />}
+          {profile.role === 'student' && <StudentDashboard onNavigate={setCurrentPage} />}
+        </>
+      ) : (
+        <>
+          {currentPage === 'landing' && <Landing onNavigate={setCurrentPage} />}
+          {currentPage === 'login' && <Login onNavigate={setCurrentPage} />}
+          {currentPage === 'signup' && <Signup onNavigate={setCurrentPage} />}
+          {currentPage === 'profile' && <Profile onNavigate={() => setCurrentPage('landing')} />}
+        </>
+      )}
+    </Suspense>
+  );
 }
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

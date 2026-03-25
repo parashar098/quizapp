@@ -1,198 +1,231 @@
-# QuizMaster - Interactive Quiz Platform
+# QuizMaster Platform
 
-A modern, full-stack quiz application built with React, Vite, TailwindCSS, and Supabase. QuizMaster allows teachers to create and manage quizzes while students can take quizzes and view their results in real-time.
+A full-stack quiz management platform where teachers create and manage quizzes, students attempt quizzes with a secure timed flow, and admins monitor users and analytics.
 
-## Features
+## Description
 
-### For Teachers
-- **Create Quizzes**: Build quizzes with multiple-choice questions
-- **Manage Quizzes**: View, edit, and delete your created quizzes
-- **Quiz Join Codes**: Each quiz gets a unique join code for easy access
-- **Track Results**: View student performance and results
-- **Dashboard Analytics**: See total quizzes, students, and attempts at a glance
+QuizMaster is a production-style MERN application focused on role-based quiz workflows.
+It provides separate dashboards and permissions for admin, teacher, and student users, includes secure JWT authentication, attempt monitoring (including tab-switch violations), and reporting endpoints for analytics.
 
-### For Students
-- **Browse Quizzes**: View all available quizzes
-- **Take Quizzes**: Attempt quizzes with a countdown timer
-- **Real-time Timer**: Auto-submit when time runs out
-- **Instant Results**: See your score and correct answers immediately
-- **Performance Tracking**: View your quiz history, average score, and best score
+## Features ✨
 
-### UI/UX Features
-- Modern, responsive design with TailwindCSS
-- Smooth animations with Framer Motion
-- Gradient buttons and glassmorphism cards
-- Mobile-responsive layout
-- Dark mode support ready
-- Hover effects and micro-interactions
+- Role-based authentication and authorization (admin, teacher, student)
+- Teacher quiz lifecycle: create, update, publish, delete
+- Student quiz attempt workflow: join by code, start, submit, timed attempts
+- Attempt integrity tracking with violation recording
+- Result history for students and quiz-level performance tracking
+- Admin controls for user management and account actions
+- Login history auditing and analytics reporting
+- Modern responsive React UI with reusable component architecture
 
 ## Tech Stack
 
 ### Frontend
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **TailwindCSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **Lucide React** - Icon library
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Axios
 
-### Backend & Database
-- **Supabase** - Backend as a Service
-  - PostgreSQL database
-  - Authentication
-  - Row Level Security (RLS)
-  - Real-time subscriptions
+### Backend
+- Node.js
+- Express.js
+- JWT authentication
+- Mongoose ODM
 
-## Project Structure
+### Database
+- MongoDB
 
-```
-quiz-master/
-├── src/
-│   ├── components/
-│   │   ├── Navbar.tsx          # Top navigation bar
-│   │   ├── Sidebar.tsx         # Sidebar navigation
-│   │   ├── QuizCard.tsx        # Quiz display card
-│   │   ├── QuestionForm.tsx    # Question creation form
-│   │   └── Timer.tsx           # Countdown timer
-│   ├── contexts/
-│   │   └── AuthContext.tsx     # Authentication context
-│   ├── lib/
-│   │   └── supabase.ts         # Supabase client and types
-│   ├── pages/
-│   │   ├── Landing.tsx         # Landing page
-│   │   ├── Login.tsx           # Login page
-│   │   ├── Signup.tsx          # Signup page
-│   │   ├── TeacherDashboard.tsx # Teacher dashboard
-│   │   └── StudentDashboard.tsx # Student dashboard
-│   ├── App.tsx                 # Main app component
-│   ├── main.tsx                # App entry point
-│   └── index.css               # Global styles
-├── .env                        # Environment variables
-├── package.json                # Dependencies
-├── tailwind.config.js          # Tailwind configuration
-├── vite.config.ts              # Vite configuration
-└── README.md                   # This file
-```
+### Tools
+- ESLint
+- Nodemon
+- Git and GitHub
 
-## Database Schema
-
-### Tables
-
-#### `profiles`
-- `id` (uuid, primary key, references auth.users)
-- `name` (text)
-- `role` (text: 'teacher' or 'student')
-- `created_at` (timestamptz)
-
-#### `quizzes`
-- `id` (uuid, primary key)
-- `title` (text)
-- `description` (text)
-- `teacher_id` (uuid, references profiles)
-- `duration` (integer, in minutes)
-- `join_code` (text, unique)
-- `created_at` (timestamptz)
-- `updated_at` (timestamptz)
-
-#### `questions`
-- `id` (uuid, primary key)
-- `quiz_id` (uuid, references quizzes)
-- `question_text` (text)
-- `options` (jsonb, array of 4 options)
-- `correct_answer` (integer, index 0-3)
-- `order_index` (integer)
-- `created_at` (timestamptz)
-
-#### `results`
-- `id` (uuid, primary key)
-- `student_id` (uuid, references profiles)
-- `quiz_id` (uuid, references quizzes)
-- `score` (integer)
-- `total_questions` (integer)
-- `answers` (jsonb)
-- `submitted_at` (timestamptz)
-
-## Installation & Setup
+## Installation ⚙️
 
 ### Prerequisites
-- Node.js 18+ installed
-- A Supabase account (database is already configured)
 
-### Steps
+- Node.js 18+
+- npm 9+
+- MongoDB instance (local or Atlas)
 
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+### 1) Clone the repository
 
-2. **Environment Variables**
-   The `.env` file is already configured with Supabase credentials:
-   ```
-   VITE_SUPABASE_URL=your_supabase_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+```bash
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
+```
 
-3. **Run Development Server**
-   ```bash
-   npm run dev
-   ```
-   The app will be available at `http://localhost:5173`
+### 2) Frontend setup (quizapp)
 
-4. **Build for Production**
-   ```bash
-   npm run build
-   ```
+```bash
+cd quizapp
+npm install
+```
 
-5. **Preview Production Build**
-   ```bash
-   npm run preview
-   ```
+Create quizapp/.env:
+
+```env
+VITE_API_URL=http://localhost:5001/api
+```
+
+### 3) Backend setup (server)
+
+```bash
+cd ../server
+npm install
+```
+
+Create server/.env:
+
+```env
+PORT=5001
+NODE_ENV=development
+MONGODB_URI=mongodb://127.0.0.1:27017/quizmaster
+JWT_SECRET=replace_with_a_strong_secret
+CLIENT_ORIGIN=http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5173
+```
 
 ## Usage Guide
 
-### For Teachers
+### Run backend
 
-1. **Sign Up**: Create an account and select "Teacher" as your role
-2. **Create Quiz**:
-   - Click "Create Quiz" in the sidebar
-   - Add quiz title, description, and duration
-   - Add questions with 4 options each
-   - Mark the correct answer for each question
-   - Click "Create Quiz" when done
-3. **Share**: Share the auto-generated join code with students
-4. **View Results**: Check the "Results" tab to see student performance
+```bash
+cd server
+npm run dev
+```
 
-### For Students
+Backend health check:
 
-1. **Sign Up**: Create an account and select "Student" as your role
-2. **Browse Quizzes**: View all available quizzes on the dashboard
-3. **Start Quiz**: Click "Start Quiz" on any available quiz
-4. **Take Quiz**:
-   - Answer questions one by one
-   - Use Next/Previous buttons to navigate
-   - Submit when finished (or auto-submit when time runs out)
-5. **View Results**: See your score and review correct answers
+```text
+GET http://localhost:5001/health
+```
 
-## Security Features
+### Run frontend
 
-- **Row Level Security (RLS)**: All database tables have RLS policies
-- **Role-based Access**: Teachers can only modify their own quizzes
-- **Authentication**: Secure JWT-based authentication via Supabase
-- **Data Validation**: Client and server-side validation
+```bash
+cd quizapp
+npm run dev
+```
 
-## Future Enhancements
+Frontend URL:
 
-- Real-time quiz sessions with Socket.io
-- Leaderboard system
-- Export results to CSV
-- Question bank and quiz templates
-- Image support in questions
-- Multiple quiz types (true/false, fill-in-the-blank)
-- Time-based quiz scheduling
-- Quiz categories and tags
-- Student progress analytics
-- Email notifications
+```text
+http://localhost:5173
+```
+
+### Build frontend for production
+
+```bash
+cd quizapp
+npm run build
+npm run preview
+```
+
+## Screenshots
+
+Add screenshots to quizapp/public/images and update paths below:
+
+- Landing Page: ![Landing](public/images/landing.png)
+- Teacher Dashboard: ![Teacher Dashboard](public/images/teacher-dashboard.png)
+- Student Dashboard: ![Student Dashboard](public/images/student-dashboard.png)
+- Admin Dashboard: ![Admin Dashboard](public/images/admin-dashboard.png)
+
+## API Endpoints
+
+Base URL: http://localhost:5001/api
+
+### Auth
+- POST /auth/register
+- POST /auth/login
+- POST /auth/logout
+
+### Quiz
+- GET /quiz
+- GET /quiz/teacher/:teacherId
+- GET /quiz/:id
+- POST /quiz
+- PUT /quiz/:id
+- DELETE /quiz/:id
+- POST /quiz/join
+- POST /quiz/:id/start
+- POST /quiz/:id/submit
+- PATCH /quiz/attempt/:attemptId/violation
+
+### Results
+- GET /result
+- POST /result
+- GET /result/quiz/:quizId
+- GET /result/:id
+
+### Admin
+- GET /admin/users
+- GET /admin/users/:userId
+- PUT /admin/users/:userId
+- POST /admin/users/:userId/block
+- POST /admin/users/:userId/unblock
+- POST /admin/users/:userId/reset-password
+- DELETE /admin/users/:userId
+- POST /admin/users/:userId/permissions
+- GET /admin/dashboard/stats
+- GET /admin/activity-log
+
+### Analytics
+- GET /analytics/quiz/:quizId
+- GET /analytics/student/:studentId
+- GET /analytics/student/:studentId/performance
+- GET /analytics/teacher/:teacherId
+- GET /analytics/teacher/:teacherId/performance
+- GET /analytics/platform
+- GET /analytics/reports/:reportType
+
+### Login History
+- GET /login-history
+- GET /login-history/stats
+- GET /login-history/user/:userId
+- POST /login-history/clear
+
+## Folder Structure
+
+```text
+quiz site/
+|-- quizapp/
+|   |-- public/
+|   |   `-- images/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- contexts/
+|   |   |-- lib/
+|   |   |-- pages/
+|   |   `-- types/
+|   |-- package.json
+|   `-- README.md
+`-- server/
+    |-- config/
+    |-- controllers/
+    |-- middleware/
+    |-- models/
+    |-- routes/
+    `-- server.js
+```
+
+## Future Improvements
+
+- Add Docker and docker-compose for one-command setup
+- Add unit/integration tests (Jest + Supertest + React Testing Library)
+- Add CI/CD pipeline (GitHub Actions)
+- Add API rate limiting and security hardening (helmet, validation middleware)
+- Add quiz scheduling, leaderboard, and export reports
+- Add observability (structured logs and metrics)
+
+## Author
+
+- Name: Your Name
+- GitHub: https://github.com/<your-username>
+- LinkedIn: https://www.linkedin.com/in/<your-profile>
 
 ## License
 
-MIT License - Feel free to use this project for learning or production use.
+This project is licensed under the MIT License.

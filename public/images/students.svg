@@ -1,0 +1,129 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E293B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F172A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg3)"/>
+
+  <!-- Floating circles -->
+  <circle cx="100" cy="500" r="150" fill="#A855F7" opacity="0.12"/>
+  <circle cx="1100" cy="200" r="180" fill="#EC4899" opacity="0.1"/>
+
+  <!-- Classroom/Team view -->
+  <g>
+    <!-- Multiple students at desks -->
+    
+    <!-- Student 1 (left) -->
+    <g transform="translate(250, 300)">
+      <!-- Desk -->
+      <rect x="0" y="150" width="120" height="60" rx="8" fill="#334155" opacity="0.6"/>
+      
+      <!-- Laptop -->
+      <rect x="10" y="60" width="100" height="70" rx="6" fill="#0F172A" stroke="#4F46E5" stroke-width="1.5"/>
+      <rect x="15" y="68" width="90" height="50" fill="#1E293B"/>
+      
+      <!-- Body -->
+      <ellipse x="60" y="30" rx="30" ry="35" fill="#E2E8F0"/>
+      
+      <!-- Head -->
+      <circle cx="60" cy="15" r="22" fill="#D4A574"/>
+      
+      <!-- Status indicator -->
+      <circle cx="85" cy="0" r="8" fill="#10B981"/>
+    </g>
+
+    <!-- Student 2 (center) -->
+    <g transform="translate(550, 250)">
+      <!-- Desk -->
+      <rect x="0" y="150" width="120" height="60" rx="8" fill="#334155" opacity="0.6"/>
+      
+      <!-- Laptop -->
+      <rect x="10" y="60" width="100" height="70" rx="6" fill="#0F172A" stroke="#A855F7" stroke-width="1.5"/>
+      <rect x="15" y="68" width="90" height="50" fill="#1E293B"/>
+      
+      <!-- Body -->
+      <ellipse x="60" y="30" rx="30" ry="35" fill="#E2E8F0"/>
+      
+      <!-- Head -->
+      <circle cx="60" cy="15" r="22" fill="#D4A574"/>
+      
+      <!-- Status indicator -->
+      <circle cx="85" cy="0" r="8" fill="#10B981"/>
+    </g>
+
+    <!-- Student 3 (right) -->
+    <g transform="translate(850, 300)">
+      <!-- Desk -->
+      <rect x="0" y="150" width="120" height="60" rx="8" fill="#334155" opacity="0.6"/>
+      
+      <!-- Laptop -->
+      <rect x="10" y="60" width="100" height="70" rx="6" fill="#0F172A" stroke="#EC4899" stroke-width="1.5"/>
+      <rect x="15" y="68" width="90" height="50" fill="#1E293B"/>
+      
+      <!-- Body -->
+      <ellipse x="60" y="30" rx="30" ry="35" fill="#E2E8F0"/>
+      
+      <!-- Head -->
+      <circle cx="60" cy="15" r="22" fill="#D4A574"/>
+      
+      <!-- Status indicator -->
+      <circle cx="85" cy="0" r="8" fill="#10B981"/>
+    </g>
+
+    <!-- Connection lines between students -->
+    <line x1="370" y1="380" x2="550" y2="330" stroke="#4F46E5" stroke-width="2" opacity="0.3" stroke-dasharray="5,5"/>
+    <line x1="670" y1="330" x2="850" y2="380" stroke="#A855F7" stroke-width="2" opacity="0.3" stroke-dasharray="5,5"/>
+  </g>
+
+  <!-- Live activity panel -->
+  <g>
+    <!-- Panel background -->
+    <rect x="100" y="550" width="350" height="200" rx="12" fill="#0F172A" stroke="#4F46E5" stroke-width="2" stroke-opacity="0.3"/>
+    
+    <!-- Title -->
+    <text x="120" y="580" font-family="Arial" font-size="16" font-weight="bold" fill="#E2E8F0">Live Activity</text>
+
+    <!-- Activity items -->
+    <!-- Item 1 -->
+    <circle cx="120" cy="620" r="6" fill="#10B981"/>
+    <text x="140" y="625" font-family="Arial" font-size="12" fill="#E2E8F0">Alice submitted quiz</text>
+    <text x="140" y="642" font-family="Arial" font-size="10" fill="#94A3B8">2 mins ago</text>
+
+    <!-- Item 2 -->
+    <circle cx="120" cy="680" r="6" fill="#3B82F6"/>
+    <text x="140" y="685" font-family="Arial" font-size="12" fill="#E2E8F0">Bob joined session</text>
+    <text x="140" y="702" font-family="Arial" font-size="10" fill="#94A3B8">1 min ago</text>
+
+    <!-- Item 3 -->
+    <circle cx="120" cy="740" r="6" fill="#F59E0B"/>
+    <text x="140" y="745" font-family="Arial" font-size="12" fill="#E2E8F0">Carol scored 95%</text>
+    <text x="140" y="762" font-family="Arial" font-size="10" fill="#94A3B8">Just now</text>
+  </g>
+
+  <!-- Stats panel -->
+  <g>
+    <!-- Panel background -->
+    <rect x="750" y="550" width="350" height="200" rx="12" fill="#0F172A" stroke="#EC4899" stroke-width="2" stroke-opacity="0.3"/>
+    
+    <!-- Title -->
+    <text x="770" y="580" font-family="Arial" font-size="16" font-weight="bold" fill="#E2E8F0">Session Stats</text>
+
+    <!-- Stat 1 -->
+    <rect x="770" y="610" width="140" height="60" rx="6" fill="#4F46E5" opacity="0.15"/>
+    <text x="790" y="635" font-family="Arial" font-size="20" font-weight="bold" fill="#4F46E5">3/3</text>
+    <text x="790" y="656" font-family="Arial" font-size="11" fill="#94A3B8">Students Online</text>
+
+    <!-- Stat 2 -->
+    <rect x="930" y="610" width="140" height="60" rx="6" fill="#A855F7" opacity="0.15"/>
+    <text x="950" y="635" font-family="Arial" font-size="20" font-weight="bold" fill="#A855F7">92%</text>
+    <text x="950" y="656" font-family="Arial" font-size="11" fill="#94A3B8">Avg. Score</text>
+
+    <!-- Stat 3 -->
+    <rect x="770" y="690" width="300" height="40" rx="6" fill="#EC4899" opacity="0.15"/>
+    <text x="790" y="715" font-family="Arial" font-size="12" fill="#E2E8F0">Session Duration: 15 mins</text>
+  </g>
+</svg>

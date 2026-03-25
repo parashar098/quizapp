@@ -1,5 +1,5 @@
 /*
-  # QuizMaster Database Schema
+  # GLA Exam Database Schema
   
   1. New Tables
     - `profiles`

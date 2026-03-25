@@ -1,132 +1,188 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LogIn, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { LogIn, Mail, Lock, ArrowLeft, CheckCircle } from 'lucide-react';
+import { BackgroundImageLayout } from '../components/BackgroundImageLayout';
 import { useAuth } from '../contexts/AuthContext';
+import { Footer } from '../components/Footer';
+import { ThemeToggle } from '../components/ThemeToggle';
+import type { Page } from '../types/navigation';
+import StarBorder from '../components/StarBorder';
 
 interface LoginProps {
-  onNavigate: (page: 'landing' | 'signup') => void;
+  onNavigate: (page: Page) => void;
 }
 
 export const Login = ({ onNavigate }: LoginProps) => {
-  const { signIn } = useAuth();
+  const { signIn, user, profile } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (user && profile && success) {
+      console.log('[Login] ✅ User logged in, user/profile set:', { user, profile });
+      const delay = setTimeout(() => {
+        console.log('[Login] ✅ Navigating to dashboard after 1s delay...');
+        // App.tsx will automatically show dashboard since user && profile are set
+      }, 100);
+      return () => clearTimeout(delay);
+    }
+  }, [user, profile, success]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    console.log('[Login] 📝 Login attempt:', { email });
 
     try {
       await signIn(email, password);
-    } catch (err) {
-      setError('Invalid email or password');
-      console.error(err);
+      setSuccess(true);
+      console.log('[Login] ✅ Login successful!');
+    } catch (err: any) {
+      let errorMessage = 'Invalid email or password';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (err?.message) {
+        errorMessage = err.message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
+      setError(errorMessage);
+      console.error('[Login] ❌ Login error:', errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md"
-      >
-        <button
-          onClick={() => onNavigate('landing')}
-          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back to Home</span>
-        </button>
-
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center">
-              <LogIn className="w-8 h-8 text-white" />
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-2">
-            Welcome Back
-          </h2>
-          <p className="text-gray-600 text-center mb-8">
-            Login to your QuizMaster account
-          </p>
-
-          {error && (
+  if (success) {
+    return (
+      <BackgroundImageLayout>
+        <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center"
+          >
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+              className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-lg"
             >
-              {error}
+              <CheckCircle className="w-10 h-10 text-white" />
             </motion.div>
-          )}
+            <h1 className="mb-2 text-4xl font-bold">Welcome Back!</h1>
+            <p className="mb-8 text-lg text-muted">Redirecting to your dashboard...</p>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="mx-auto h-12 w-12 rounded-full border-4 border-slate-300/60 border-t-brand-500 dark:border-slate-600 dark:border-t-brand-300"
+            />
+          </motion.div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
-                  required
-                />
-              </div>
-            </div>
+        <Footer />
+      </BackgroundImageLayout>
+    );
+  }
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
+  return (
+    <BackgroundImageLayout>
+      <div className="saas-shell relative z-20 pt-6 flex justify-end">
+        <ThemeToggle />
+      </div>
 
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md saas-card shadow-premium"
+        >
+          <div className="px-8 py-10">
+            <StarBorder as="button"
+              onClick={() => onNavigate('landing')}
+              className="mb-6 flex items-center gap-2 text-sm font-medium text-muted transition hover:text-text-primary dark:hover:text-slate-100"
             >
-              {loading ? 'Logging in...' : 'Login'}
-            </motion.button>
-          </form>
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </StarBorder>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Don't have an account?{' '}
-              <button
+            <div className="text-center mb-8">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
+                <LogIn className="w-7 h-7 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold">Welcome Back</h2>
+              <p className="mt-2 text-sm text-muted">Login to your GLA Exam account</p>
+            </div>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 rounded-xl border border-ui-error/35 bg-ui-error/10 px-4 py-3 text-sm text-ui-error"
+              >
+                {error}
+              </motion.div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-muted">Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-modern pl-11"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-muted">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-modern pl-11"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <StarBorder as={motion.button}
+                type="submit"
+                disabled={loading}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loading ? 'Logging in…' : 'Login'}
+              </StarBorder>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-muted">
+              Don&apos;t have an account?{' '}
+              <StarBorder as="button"
                 onClick={() => onNavigate('signup')}
-                className="text-blue-600 font-semibold hover:underline"
+                className="font-semibold text-brand-600 hover:underline dark:text-brand-300"
               >
                 Sign up
-              </button>
+              </StarBorder>
             </p>
           </div>
-        </div>
       </motion.div>
-    </div>
+      </div>
+
+      <Footer />
+    </BackgroundImageLayout>
   );
 };

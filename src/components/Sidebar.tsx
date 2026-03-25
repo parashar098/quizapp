@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Home, PlusCircle, List, BarChart } from 'lucide-react';
+import { Home, PlusCircle, List, BarChart, Settings } from 'lucide-react';
+import StarBorder from './StarBorder';
 
 interface SidebarProps {
   activeTab: string;
@@ -13,44 +14,55 @@ export const Sidebar = ({ activeTab, onTabChange, role }: SidebarProps) => {
     { id: 'create', label: 'Create Quiz', icon: PlusCircle },
     { id: 'quizzes', label: 'My Quizzes', icon: List },
     { id: 'results', label: 'Results', icon: BarChart },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   const studentTabs = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'quizzes', label: 'Available Quizzes', icon: List },
     { id: 'results', label: 'My Results', icon: BarChart },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   const tabs = role === 'teacher' ? teacherTabs : studentTabs;
 
   return (
     <motion.aside
-      initial={{ x: -100, opacity: 0 }}
+      initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-73px)] p-4"
+      className="hidden md:block w-72 shrink-0 border-r border-ui-border/80 bg-white/65 p-6 backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/65"
     >
+      <div className="mb-6">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Navigation</p>
+      </div>
+
       <nav className="space-y-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           return (
-            <motion.button
+            <StarBorder as={motion.button}
               key={tab.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onTabChange(tab.id)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-soft'
+                  : 'text-text-secondary hover:bg-slate-200/70 hover:text-text-primary dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:text-white'
               }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="font-medium">{tab.label}</span>
-            </motion.button>
+              <Icon className="h-5 w-5" />
+              <span className="font-medium text-sm">{tab.label}</span>
+            </StarBorder>
           );
         })}
       </nav>
+
+      <div className="mt-8 rounded-2xl border border-ui-border/80 bg-white/80 px-4 py-4 dark:border-slate-700/70 dark:bg-slate-900/70">
+        <p className="mb-2 text-xs text-muted">Need help?</p>
+        <p className="text-sm text-text-primary dark:text-slate-100">Visit the guide in the docs or reach out.</p>
+      </div>
     </motion.aside>
   );
 };

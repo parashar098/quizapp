@@ -1,4 +1,4 @@
-# QuizMaster - Quick Start Guide
+# GLA Exam - Quick Start Guide
 
 ## Getting Started
 

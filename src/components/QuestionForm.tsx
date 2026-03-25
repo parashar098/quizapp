@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
+import StarBorder from './StarBorder';
 
 export interface QuestionData {
   question_text: string;
@@ -37,44 +38,38 @@ export const QuestionForm = ({ onAdd, questionNumber }: QuestionFormProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       onSubmit={handleSubmit}
-      className="bg-white rounded-xl shadow-md p-6 border border-gray-100"
+      className="saas-card"
     >
-      <h3 className="text-lg font-bold text-gray-900 mb-4">
-        Question {questionNumber}
-      </h3>
+      <h3 className="mb-4 text-lg font-semibold text-text-primary dark:text-slate-100">Question {questionNumber}</h3>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Question Text
-          </label>
+          <label className="mb-2 block text-sm font-medium text-muted">Question Text</label>
           <input
             type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="input-modern"
             placeholder="Enter your question..."
             required
           />
         </div>
 
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-700">
-            Options (select the correct answer)
-          </label>
+          <label className="block text-sm font-medium text-muted">Options (select the correct answer)</label>
           {options.map((option, index) => (
-            <div key={index} className="flex items-center space-x-3">
-              <button
+            <div key={index} className="flex items-center gap-3">
+              <StarBorder as="button"
                 type="button"
                 onClick={() => setCorrectAnswer(index)}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                className={`flex h-10 w-10 items-center justify-center rounded-full transition ${
                   correctAnswer === index
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                    ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg'
+                    : 'bg-slate-200/80 text-text-secondary hover:bg-slate-300/90 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:bg-slate-700/90'
                 }`}
               >
-                {correctAnswer === index && <Check className="w-4 h-4" />}
-              </button>
+                {correctAnswer === index ? <Check className="w-4 h-4" /> : index + 1}
+              </StarBorder>
               <input
                 type="text"
                 value={option}
@@ -83,7 +78,7 @@ export const QuestionForm = ({ onAdd, questionNumber }: QuestionFormProps) => {
                   newOptions[index] = e.target.value;
                   setOptions(newOptions);
                 }}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="input-modern flex-1"
                 placeholder={`Option ${index + 1}`}
                 required
               />
@@ -91,14 +86,14 @@ export const QuestionForm = ({ onAdd, questionNumber }: QuestionFormProps) => {
           ))}
         </div>
 
-        <motion.button
+        <StarBorder as={motion.button}
           type="submit"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+          className="btn-primary w-full"
         >
           Add Question
-        </motion.button>
+        </StarBorder>
       </div>
     </motion.form>
   );

@@ -39,6 +39,10 @@ It provides separate dashboards and permissions for admin, teacher, and student 
 
 ### Database
 - MongoDB
+- <img width="1139" height="414" alt="image" src="https://github.com/user-attachments/assets/68ab6e4e-ea43-4a11-9014-95bfc6ca98ba" />
+<img width="1918" height="435" alt="image" src="https://github.com/user-attachments/assets/f3f444a6-4505-42dd-8a7e-e07028b1db39" />
+
+
 
 ### Tools
 - ESLint
@@ -131,11 +135,11 @@ npm run preview
 
 Add screenshots to quizapp/public/images and update paths below:
 
-- Landing Page: ![Landing](<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" />)
+- Landing Page: ![Landing]<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" />
 - Teacher Dashboard: ![Teacher Dashboard]<img width="1888" height="823" alt="image" src="https://github.com/user-attachments/assets/be3f49bb-e259-474e-98cc-45f63566c84e" />
 
-- Student Dashboard: ![Student Dashboard](<img width="1893" height="829" alt="image" src="https://github.com/user-attachments/assets/df96fe59-8deb-4740-9f33-000b3eb3b4be" />
-)
+- Student Dashboard: ![Student Dashboard]<img width="1893" height="829" alt="image" src="https://github.com/user-attachments/assets/df96fe59-8deb-4740-9f33-000b3eb3b4be" />
+
 - Admin Dashboard: ![Admin Dashboard](public/images/admin-dashboard.png)
 
 ## API Endpoints

@@ -224,20 +224,13 @@ quiz site/
     `-- server.js
 ```
 
-## Future Improvements
 
-- Add Docker and docker-compose for one-command setup
-- Add unit/integration tests (Jest + Supertest + React Testing Library)
-- Add CI/CD pipeline (GitHub Actions)
-- Add API rate limiting and security hardening (helmet, validation middleware)
-- Add quiz scheduling, leaderboard, and export reports
-- Add observability (structured logs and metrics)
 
 ## Author
 
-- Name: Your Name
-- GitHub: https://github.com/<your-username>
-- LinkedIn: https://www.linkedin.com/in/<your-profile>
+- Name: suryansh parashar
+- GitHub: https://github.com/<parashar098>
+
 
 ## License
 

@@ -1,6 +1,8 @@
 # QuizMaster Platform
 
 A full-stack quiz management platform where teachers create and manage quizzes, students attempt quizzes with a secure timed flow, and admins monitor users and analytics.
+<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" />
+
 
 ## Description
 

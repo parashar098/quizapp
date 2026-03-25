@@ -1,7 +1,8 @@
 # QuizMaster Platform
 
 A full-stack quiz management platform where teachers create and manage quizzes, students attempt quizzes with a secure timed flow, and admins monitor users and analytics.
-<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" />
+<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" /><img width="1882" height="826" alt="image" src="https://github.com/user-attachments/assets/87886ee6-4b8e-40d6-9d91-03f5985dfed3" />
+
 
 
 ## Description
@@ -130,9 +131,11 @@ npm run preview
 
 Add screenshots to quizapp/public/images and update paths below:
 
-- Landing Page: ![Landing](public/images/landing.png)
-- Teacher Dashboard: ![Teacher Dashboard](public/images/teacher-dashboard.png)
-- Student Dashboard: ![Student Dashboard](public/images/student-dashboard.png)
+- Landing Page: ![Landing](<img width="1878" height="823" alt="image" src="https://github.com/user-attachments/assets/884bc2ec-326c-45ca-adbf-6847e9e9bc66" />)
+- Teacher Dashboard: ![Teacher Dashboard]<img width="1888" height="823" alt="image" src="https://github.com/user-attachments/assets/be3f49bb-e259-474e-98cc-45f63566c84e" />
+
+- Student Dashboard: ![Student Dashboard](<img width="1893" height="829" alt="image" src="https://github.com/user-attachments/assets/df96fe59-8deb-4740-9f33-000b3eb3b4be" />
+)
 - Admin Dashboard: ![Admin Dashboard](public/images/admin-dashboard.png)
 
 ## API Endpoints

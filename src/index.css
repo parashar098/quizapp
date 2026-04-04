@@ -4,24 +4,29 @@
 @tailwind utilities;
 @layer base {
      :root {
-        --bg: #f4f8f7;
-        --fg: #10231f;
-        --muted: #5f7a73;
-        --border: #d7e4df;
-        --card: rgba(255, 255, 255, 0.86);
-        --card-solid: #ffffff;
-        --brand: #0f766e;
-        --accent: #334155;
+        --bg: #0b1220;
+        --fg: #F8FAFC;
+        --muted: #94A3B8;
+        --border: rgba(255, 255, 255, 0.08);
+        --card: rgba(17, 24, 39, 0.86);
+        --card-solid: #111827;
+        --brand: #60A5FA;
+        --brand-strong: #1D4ED8;
+        --accent: #CBD5E1;
+        --success: #10B981;
         --error: #ef4444;
         --warning: #f59e0b;
     }
     .dark {
-        --bg: #0c1715;
-        --fg: #ecf7f4;
-        --muted: #8ea8a0;
-        --border: rgba(142, 168, 160, 0.28);
-        --card: rgba(16, 30, 27, 0.74);
-        --card-solid: #10211d;
+        --bg: #0b1220;
+        --fg: #F8FAFC;
+        --muted: #94A3B8;
+        --border: rgba(255, 255, 255, 0.08);
+        --card: rgba(17, 24, 39, 0.86);
+        --card-solid: #111827;
+        --brand: #60A5FA;
+        --brand-strong: #3B82F6;
+        --accent: #CBD5E1;
     }
     html,
     body {
@@ -124,12 +129,12 @@
     .glass {
         background: var(--card);
         border: 1px solid var(--border);
-        backdrop-filter: blur(14px);
+        backdrop-filter: blur(6px);
     }
     .glass-dark {
         background: color-mix(in srgb, var(--card-solid) 72%, transparent);
         border: 1px solid var(--border);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(8px);
     }
 }
 
@@ -137,7 +142,7 @@
     .saas-bg {
         @apply relative overflow-hidden;
         background-color: var(--bg);
-        background-image: radial-gradient(circle at 8% 10%, rgba(15, 118, 110, 0.12), transparent 34%), radial-gradient(circle at 92% 14%, rgba(51, 65, 85, 0.1), transparent 26%), linear-gradient(180deg, rgba(95, 122, 115, 0.05), transparent 26%);
+        background-image: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08), transparent 40%);
     }
     .saas-shell {
         @apply mx-auto w-full max-w-7xl px-4;
@@ -153,42 +158,46 @@
         }
     }
     .saas-card {
-        @apply rounded-2xl border p-6 shadow-soft transition-transform duration-300;
+        @apply rounded-2xl border p-6 shadow-soft transition-all duration-300;
         border-color: var(--border);
         background: var(--card);
+        backdrop-filter: blur(6px);
     }
     .saas-card-hover {
         @apply transition-transform duration-300;
     }
     .saas-card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 22px 45px rgba(15, 23, 42, 0.14);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(2, 6, 23, 0.28);
     }
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-300;
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-300;
         background-color: var(--brand);
     }
     .btn-primary:hover {
-        transform: scale(1.05);
-        background-color: color-mix(in srgb, var(--brand) 88%, #000000);
-        box-shadow: 0 22px 45px rgba(15, 23, 42, 0.14);
+        transform: translateY(-1px);
+        background-color: var(--brand-strong);
+        box-shadow: 0 10px 24px rgba(59, 130, 246, 0.22);
     }
     .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform duration-300;
-        background-color: var(--accent);
+        @apply inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-all duration-300;
+        border-color: var(--border);
+        color: var(--fg);
+        background: color-mix(in srgb, var(--card-solid) 95%, transparent);
     }
     .btn-secondary:hover {
-        transform: translateY(-2px);
-        background-color: color-mix(in srgb, var(--accent) 88%, #000000);
+        transform: translateY(-1px);
+        border-color: color-mix(in srgb, var(--brand) 48%, var(--border));
     }
     .btn-outline {
         @apply inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-colors duration-300;
         border-color: var(--border);
         color: var(--fg);
-        background: color-mix(in srgb, var(--card-solid) 70%, transparent);
+        background: transparent;
     }
     .btn-outline:hover {
-        transform: scale(1.02);
+        background: color-mix(in srgb, var(--brand) 8%, transparent);
+        border-color: color-mix(in srgb, var(--brand) 50%, var(--border));
     }
     .input-modern {
         @apply w-full rounded-xl border px-4 py-3 text-sm outline-none transition-all duration-200;
@@ -201,7 +210,7 @@
     }
     .input-modern:focus {
         border-color: var(--brand);
-        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
     }
     .text-muted {
         color: var(--muted);

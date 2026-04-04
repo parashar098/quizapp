@@ -50,7 +50,7 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
         <header className="border-b border-ui-border/70 bg-white/35 backdrop-blur-md dark:border-slate-700/70 dark:bg-slate-950/35">
           <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600">
                 <span className="text-white font-bold">Q</span>
               </div>
               <h1 className="text-xl font-bold text-text-primary dark:text-slate-100">GLA Exam</h1>
@@ -75,12 +75,12 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
             {/* Profile Card */}
             <div className="saas-card overflow-hidden p-0 shadow-premium">
               {/* Banner */}
-              <div className="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+              <div className="h-32 bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600" />
 
               {/* Profile Info */}
               <div className="px-8 pb-8">
                 <div className="flex flex-col md:flex-row md:items-end gap-6 -mt-16 relative z-10 mb-8">
-                  <div className="flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white/30 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-xl">
+                  <div className="flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white/30 bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600 shadow-xl">
                     <User className="w-16 h-16 text-white" />
                   </div>
                   <div className="flex-1">
@@ -99,8 +99,8 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
                     className="saas-card saas-card-hover border-ui-border/80 bg-white/55 p-6 dark:bg-slate-900/55"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                        <Mail className="w-5 h-5 text-blue-400" />
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/15 flex items-center justify-center">
+                        <Mail className="w-5 h-5 text-blue-500" />
                       </div>
                       <h3 className="font-semibold text-text-primary dark:text-slate-100">Email</h3>
                     </div>
@@ -113,8 +113,8 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
                     className="saas-card saas-card-hover border-ui-border/80 bg-white/55 p-6 dark:bg-slate-900/55"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                        <UserCheck className="w-5 h-5 text-purple-400" />
+                      <div className="w-10 h-10 rounded-lg bg-slate-500/15 flex items-center justify-center">
+                        <UserCheck className="w-5 h-5 text-slate-600" />
                       </div>
                       <h3 className="font-semibold text-text-primary dark:text-slate-100">Account Type</h3>
                     </div>
@@ -127,8 +127,8 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
                     className="saas-card saas-card-hover border-ui-border/80 bg-white/55 p-6 dark:bg-slate-900/55"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center">
-                        <span className="text-pink-400 font-bold text-sm">ID</span>
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/15 flex items-center justify-center">
+                        <span className="text-blue-700 font-bold text-sm">ID</span>
                       </div>
                       <h3 className="font-semibold text-text-primary dark:text-slate-100">User ID</h3>
                     </div>
@@ -141,8 +141,8 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
                     className="saas-card saas-card-hover border-ui-border/80 bg-white/55 p-6 dark:bg-slate-900/55"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
-                        <Calendar className="w-5 h-5 text-orange-400" />
+                      <div className="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-amber-500" />
                       </div>
                       <h3 className="font-semibold text-text-primary dark:text-slate-100">Joined</h3>
                     </div>
@@ -155,7 +155,7 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
             {/* Account Status */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 to-emerald-400/10 p-6 backdrop-blur-md"
+              className="rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 to-emerald-400/5 p-6 backdrop-blur-md"
             >
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
@@ -169,7 +169,7 @@ export const Profile = ({ onNavigate }: ProfileProps) => {
               whileTap={{ scale: 0.98 }}
               onClick={handleLogout}
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-500 to-pink-500 py-4 font-semibold text-white shadow-lg transition hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-500 to-orange-500 py-4 font-semibold text-white shadow-lg transition hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
             >
               <LogOut className="w-5 h-5" />
               {loading ? 'Logging out...' : 'Logout'}

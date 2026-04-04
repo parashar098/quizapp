@@ -1,5 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { authAPI } from '../lib/api';
+
+const AUTO_LOGOUT_MS = 15 * 60 * 1000;
 
 interface User {
   id: string;
@@ -31,6 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const inactivityTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -50,9 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUp = async (email: string, password: string, name: string, role: 'teacher' | 'student') => {
     try {
-      console.log('[AuthContext] Signup request:', { email, name, role });
       const response = await authAPI.register({ email, password, name, role });
-      console.log('[AuthContext] Signup response:', response.data);
       
       const { token, user: userData } = response.data;
 
@@ -61,11 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setUser(userData);
       setProfile(userData);
-      
-      console.log('[AuthContext] ✅ Signup successful, user state updated');
     } catch (error: any) {
-      console.error('[AuthContext] ❌ Signup error:', error);
-      
       // Extract error message from various sources
       let errorMessage = 'Registration failed';
       
@@ -77,8 +74,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         errorMessage = error;
       }
       
-      console.error('[AuthContext] Error to throw:', errorMessage);
-      
       // Throw as Error object (not just string)
       const err = new Error(errorMessage);
       Object.assign(err, { response: error.response });
@@ -88,9 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log('[AuthContext] Login request:', { email });
       const response = await authAPI.login({ email, password });
-      console.log('[AuthContext] Login response:', response.data);
       
       const { token, user: userData } = response.data;
 
@@ -99,11 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setUser(userData);
       setProfile(userData);
-      
-      console.log('[AuthContext] ✅ Login successful, user state updated');
     } catch (error: any) {
-      console.error('[AuthContext] ❌ Login error:', error);
-      
       // Extract error message
       let errorMessage = 'Login failed';
       
@@ -114,8 +103,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } else if (typeof error === 'string') {
         errorMessage = error;
       }
-      
-      console.error('[AuthContext] Error to throw:', errorMessage);
       
       // Throw as Error object
       const err = new Error(errorMessage);
@@ -136,6 +123,55 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
     }
   };
+
+  useEffect(() => {
+    if (!user) {
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
+      return;
+    }
+
+    const activityEvents: Array<keyof DocumentEventMap> = [
+      'mousemove',
+      'mousedown',
+      'keydown',
+      'scroll',
+      'touchstart',
+      'click',
+    ];
+
+    const resetTimer = () => {
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+      }
+      inactivityTimerRef.current = setTimeout(async() => {
+        try {
+          await signOut();
+          window.location.reload();
+        } catch (error) {
+          console.error('[AuthContext] Auto logout failed:', error);
+        }
+      }, AUTO_LOGOUT_MS);
+    };
+
+    activityEvents.forEach((eventName) => {
+      document.addEventListener(eventName, resetTimer, { passive: true });
+    });
+
+    resetTimer();
+
+    return () => {
+      activityEvents.forEach((eventName) => {
+        document.removeEventListener(eventName, resetTimer);
+      });
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
+    };
+  }, [user]);
 
   const value = {
     user,

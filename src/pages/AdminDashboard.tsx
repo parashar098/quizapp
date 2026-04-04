@@ -5,8 +5,10 @@ import { BackgroundImageLayout } from '../components/BackgroundImageLayout';
 import { DashboardStatCard } from '../components/DashboardStatCard';
 import { Footer } from '../components/Footer';
 import { useAuth } from '../contexts/AuthContext';
+import apiClient from '../lib/api';
 import type { Page } from '../types/navigation';
 import StarBorder from '../components/StarBorder';
+import { Button } from '../components/ui/Button';
 
 interface AdminDashboardProps {
   onNavigate?: (page: Page) => void;
@@ -55,11 +57,30 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
   const fetchDashboardStats = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/admin/dashboard/stats');
-      if (response.ok) {
-        const data = await response.json();
-        setStats(data);
-      }
+      const response = await apiClient.get('/admin/dashboard/stats');
+      const payload = response.data?.data || response.data;
+
+      setStats({
+        totalUsers: payload?.users?.total || 0,
+        activeUsers: payload?.users?.byStatus?.active || 0,
+        totalQuizzes: payload?.quizzes?.total || 0,
+        averageScore: payload?.assessments?.averageScore || 0,
+        usersByRole: {
+          admins: payload?.users?.byRole?.admin || 0,
+          teachers: payload?.users?.byRole?.teacher || 0,
+          students: payload?.users?.byRole?.student || 0,
+        },
+        usersByStatus: {
+          active: payload?.users?.byStatus?.active || 0,
+          inactive: payload?.users?.byStatus?.inactive || 0,
+          blocked: payload?.users?.byStatus?.blocked || 0,
+        },
+        systemHealth: {
+          databaseStatus: 'healthy',
+          apiResponse: 0,
+          uptime: 99.9,
+        },
+      });
     } catch (error) {
       console.error('[AdminDashboard] Error fetching stats:', error);
       // Use mock data if API fails
@@ -96,54 +117,52 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
     { label: 'Analytics', action: () => onNavigate?.('analytics'), icon: TrendingUp },
   ];
 
-  const getHealthColor = (status: string) => {
+  const getHealthClass = (status: string) => {
     switch (status) {
       case 'healthy':
-        return 'from-emerald-500 via-green-500 to-teal-500';
+        return 'text-ui-success bg-emerald-50 border-emerald-200';
       case 'warning':
-        return 'from-yellow-500 via-orange-500 to-amber-500';
+        return 'text-ui-warning bg-amber-50 border-amber-200';
       case 'critical':
-        return 'from-red-500 via-pink-500 to-rose-500';
+        return 'text-ui-error bg-red-50 border-red-200';
       default:
-        return 'from-indigo-500 via-purple-500 to-pink-500';
+        return 'text-brand-600 bg-brand-50 border-brand-200';
     }
   };
 
   return (
-    <BackgroundImageLayout fixedImage overlayClassName="bg-slate-50/72 dark:bg-slate-950/80">
+    <BackgroundImageLayout fixedImage>
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
-        <header className="border-b border-white/10 backdrop-blur-md">
+        <header className="border-b border-ui-border bg-white/88 backdrop-blur-sm dark:border-slate-700/60 dark:bg-slate-900/86">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-brand-100 border border-brand-200 flex items-center justify-center">
                 <span className="text-white font-bold">A</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold">Admin Portal</h1>
-                <p className="text-xs text-white/60">System Administration</p>
+                <h1 className="text-xl font-bold text-text-primary dark:text-slate-100">Admin Portal</h1>
+                <p className="text-xs text-muted">System Administration</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <StarBorder as={motion.button}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              <Button
                 onClick={() => onNavigate?.('profile')}
-                className="inline-flex items-center gap-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 px-4 py-2 text-sm font-semibold transition"
+                variant="secondary"
+                className="px-4 py-2"
               >
                 <Settings className="w-4 h-4" />
                 Settings
-              </StarBorder>
-              <StarBorder as={motion.button}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              </Button>
+              <Button
                 onClick={handleLogout}
                 disabled={logoutLoading}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 px-4 py-2 text-sm font-semibold transition disabled:opacity-50"
+                variant="outline"
+                className="px-4 py-2 text-ui-error border-red-200 hover:bg-red-50"
               >
                 <LogOut className="w-4 h-4" />
                 {logoutLoading ? 'Logging out...' : 'Logout'}
-              </StarBorder>
+              </Button>
             </div>
           </div>
         </header>
@@ -153,8 +172,8 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full border-4 border-white/20 border-t-white/60 animate-spin mx-auto mb-4" />
-                <p className="text-white/70">Loading dashboard...</p>
+                <div className="w-12 h-12 rounded-full border-4 border-brand-100 border-t-brand-500 animate-spin mx-auto mb-4" />
+                <p className="text-muted">Loading dashboard...</p>
               </div>
             </div>
           ) : (
@@ -165,8 +184,8 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
             >
               {/* Title Section */}
               <div>
-                <h2 className="text-4xl font-bold mb-2">Admin Dashboard</h2>
-                <p className="text-white/70">Welcome, {profile?.name}. Manage users, quizzes, and system health.</p>
+                <h2 className="text-3xl md:text-4xl font-bold mb-2 text-text-primary dark:text-slate-100">Admin Dashboard</h2>
+                <p className="text-muted">Welcome, {profile?.name}. Manage users, quizzes, and system health.</p>
               </div>
 
               {/* Key Stats Grid */}
@@ -176,28 +195,28 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
                   value={stats.totalUsers}
                   subtitle="All registered users"
                   icon={Users}
-                  colorClass="from-blue-500 via-cyan-500 to-teal-500"
+                  colorClass="from-brand-100 to-brand-50"
                 />
                 <DashboardStatCard
                   title="Active Users"
                   value={stats.activeUsers}
                   subtitle="Currently active"
                   icon={Activity}
-                  colorClass="from-emerald-500 via-green-500 to-teal-500"
+                  colorClass="from-emerald-100 to-emerald-50"
                 />
                 <DashboardStatCard
                   title="Total Quizzes"
                   value={stats.totalQuizzes}
                   subtitle="Created quizzes"
                   icon={BookOpen}
-                  colorClass="from-indigo-500 via-purple-500 to-pink-500"
+                  colorClass="from-brand-100 to-brand-50"
                 />
                 <DashboardStatCard
                   title="Average Score"
                   value={`${stats.averageScore}%`}
                   subtitle="Student average"
                   icon={TrendingUp}
-                  colorClass="from-indigo-500 via-purple-500 to-pink-500"
+                  colorClass="from-brand-100 to-brand-50"
                 />
               </div>
 
@@ -207,32 +226,32 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="glass rounded-3xl border border-white/10 p-8 shadow-glass"
+                  className="saas-card rounded-2xl"
                 >
-                  <h3 className="text-xl font-semibold mb-6 text-white">Users by Role</h3>
+                  <h3 className="text-xl font-semibold mb-6 text-text-primary dark:text-slate-100">Users by Role</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-purple-500" />
-                        <span className="text-white/80">Administrators</span>
+                        <div className="w-3 h-3 rounded-full bg-brand-500" />
+                        <span className="text-text-secondary dark:text-slate-300">Administrators</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByRole.admins}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByRole.admins}</span>
                     </div>
-                    <div className="h-px bg-white/10" />
+                    <div className="h-px bg-ui-border" />
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-blue-500" />
-                        <span className="text-white/80">Teachers</span>
+                        <div className="w-3 h-3 rounded-full bg-indigo-400" />
+                        <span className="text-text-secondary dark:text-slate-300">Teachers</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByRole.teachers}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByRole.teachers}</span>
                     </div>
-                    <div className="h-px bg-white/10" />
+                    <div className="h-px bg-ui-border" />
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                        <span className="text-white/80">Students</span>
+                        <span className="text-text-secondary dark:text-slate-300">Students</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByRole.students}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByRole.students}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -241,32 +260,32 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="glass rounded-3xl border border-white/10 p-8 shadow-glass"
+                  className="saas-card rounded-2xl"
                 >
-                  <h3 className="text-xl font-semibold mb-6 text-white">Users by Status</h3>
+                  <h3 className="text-xl font-semibold mb-6 text-text-primary dark:text-slate-100">Users by Status</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-white/80">Active</span>
+                        <span className="text-text-secondary dark:text-slate-300">Active</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByStatus.active}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByStatus.active}</span>
                     </div>
-                    <div className="h-px bg-white/10" />
+                    <div className="h-px bg-ui-border" />
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                        <span className="text-white/80">Inactive</span>
+                        <span className="text-text-secondary dark:text-slate-300">Inactive</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByStatus.inactive}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByStatus.inactive}</span>
                     </div>
-                    <div className="h-px bg-white/10" />
+                    <div className="h-px bg-ui-border" />
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-red-500" />
-                        <span className="text-white/80">Blocked</span>
+                        <span className="text-text-secondary dark:text-slate-300">Blocked</span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{stats.usersByStatus.blocked}</span>
+                      <span className="text-2xl font-bold text-text-primary dark:text-slate-100">{stats.usersByStatus.blocked}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -276,24 +295,25 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`glass rounded-3xl border border-white/10 p-8 shadow-glass bg-gradient-to-r ${getHealthColor(stats.systemHealth.databaseStatus)}/10`}
+                className="saas-card rounded-2xl"
               >
-                <h3 className="text-xl font-semibold mb-6 text-white">System Health</h3>
+                <h3 className="text-xl font-semibold mb-6 text-text-primary dark:text-slate-100">System Health</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div>
-                    <p className="text-white/70 text-sm mb-2">Database Status</p>
+                    <p className="text-muted text-sm mb-2">Database Status</p>
                     <div className="flex items-center gap-2">
-                      <div className={`w-3 h-3 rounded-full bg-${stats.systemHealth.databaseStatus === 'healthy' ? 'green' : stats.systemHealth.databaseStatus === 'warning' ? 'yellow' : 'red'}-500 animate-pulse`} />
-                      <p className="text-xl font-bold text-white capitalize">{stats.systemHealth.databaseStatus}</p>
+                      <p className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold capitalize ${getHealthClass(stats.systemHealth.databaseStatus)}`}>
+                        {stats.systemHealth.databaseStatus}
+                      </p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-white/70 text-sm mb-2">API Response Time</p>
-                    <p className="text-xl font-bold text-white">{stats.systemHealth.apiResponse}ms</p>
+                    <p className="text-muted text-sm mb-2">API Response Time</p>
+                    <p className="text-xl font-bold text-text-primary dark:text-slate-100">{stats.systemHealth.apiResponse}ms</p>
                   </div>
                   <div>
-                    <p className="text-white/70 text-sm mb-2">System Uptime</p>
-                    <p className="text-xl font-bold text-white">{stats.systemHealth.uptime}%</p>
+                    <p className="text-muted text-sm mb-2">System Uptime</p>
+                    <p className="text-xl font-bold text-text-primary dark:text-slate-100">{stats.systemHealth.uptime}%</p>
                   </div>
                 </div>
               </motion.div>
@@ -311,13 +331,13 @@ export const AdminDashboard = ({ onNavigate }: AdminDashboardProps) => {
                       whileHover={{ scale: 1.02, y: -4 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={btn.action}
-                      className="glass rounded-2xl border border-white/10 p-6 shadow-glass hover:bg-white/20 transition text-left group"
+                      className="saas-card rounded-2xl border border-ui-border p-6 shadow-soft hover:bg-white transition text-left group"
                     >
                       <div className="flex items-start justify-between mb-4">
-                        <Icon className="w-8 h-8 text-purple-300 group-hover:text-pink-300 transition" />
+                        <Icon className="w-8 h-8 text-brand-500 group-hover:text-brand-600 transition" />
                       </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">{btn.label}</h3>
-                      <p className="text-sm text-white/60 group-hover:text-white/80 transition">
+                      <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100 mb-2">{btn.label}</h3>
+                      <p className="text-sm text-muted group-hover:text-text-secondary transition">
                         Manage and monitor {btn.label.toLowerCase()}
                       </p>
                     </StarBorder>

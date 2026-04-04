@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const rawApiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API_BASE_URL = rawApiBaseUrl.replace(/\/$/, '');
 const REQUEST_TIMEOUT_MS = 10000;
 const MAX_RETRIES = 2;
 
@@ -135,6 +136,38 @@ export const adminAPI = {
     apiClient.post(`/admin/users/${userId}/unblock`),
   deleteUser: (userId: string) =>
     apiClient.delete(`/admin/users/${userId}`),
+};
+
+// User Profile endpoints
+export const userAPI = {
+  getProfile: () =>
+    apiClient.get('/user/profile'),
+  updateProfile: (data: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    education?: string;
+    schoolName?: string;
+    classYear?: string;
+  }) =>
+    apiClient.put('/user/profile', data),
+  updateProfilePicture: (profilePic: string) =>
+    apiClient.put('/user/profile-picture', { profilePic }),
+  changePassword: (data: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) =>
+    apiClient.put('/user/password', data),
+  getDashboardStats: () =>
+    apiClient.get('/user/stats'),
+  updatePreferences: (data: {
+    darkMode?: boolean;
+    notifications?: boolean;
+  }) =>
+    apiClient.put('/user/preferences', data),
+  deleteAccount: (password: string) =>
+    apiClient.delete('/user/account', { data: { password } }),
 };
 
 export default apiClient;

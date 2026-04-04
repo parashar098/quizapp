@@ -43,10 +43,10 @@ export const QuizTimer = ({ durationMinutes, startTime, onTimeUp }: QuizTimerPro
     <div
       className={`inline-flex items-center gap-3 rounded-2xl border px-5 py-3 font-mono text-lg font-bold backdrop-blur-md transition-colors ${
         isCritical
-          ? 'animate-pulse border-red-400 bg-red-500/20 text-red-300'
+          ? 'animate-pulse border-red-300 bg-red-50 text-ui-error dark:border-red-500/40 dark:bg-red-500/20 dark:text-red-200'
           : isWarning
-          ? 'border-amber-400 bg-amber-500/20 text-amber-300'
-          : 'border-white/20 bg-white/10 text-white'
+          ? 'border-amber-300 bg-amber-50 text-ui-warning dark:border-amber-500/40 dark:bg-amber-500/20 dark:text-amber-200'
+          : 'border-ui-border bg-white text-text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100'
       }`}
     >
       <Clock className="h-5 w-5" />

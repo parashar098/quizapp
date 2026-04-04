@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import type { HTMLMotionProps } from 'framer-motion';
 import type { ReactNode } from 'react';
-import StarBorder from '../StarBorder';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline';
 
@@ -25,13 +24,14 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   return (
-    <StarBorder as={motion.button}
+    <motion.button
       whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -1 }}
       className={`${variantClass[variant]} ${className}`.trim()}
       {...props}
     >
       {icon}
       {children}
-    </StarBorder>
+    </motion.button>
   );
 };

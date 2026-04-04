@@ -64,7 +64,7 @@ export const QuestionForm = ({ onAdd, questionNumber }: QuestionFormProps) => {
                 onClick={() => setCorrectAnswer(index)}
                 className={`flex h-10 w-10 items-center justify-center rounded-full transition ${
                   correctAnswer === index
-                    ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg'
+                    ? 'bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 text-white shadow-lg'
                     : 'bg-slate-200/80 text-text-secondary hover:bg-slate-300/90 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:bg-slate-700/90'
                 }`}
               >

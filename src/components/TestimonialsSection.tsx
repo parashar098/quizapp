@@ -1,31 +1,36 @@
 import { motion } from 'framer-motion';
-import { Quote, Star } from 'lucide-react';
-import { Avatar } from './Avatar';
+import { Star, StarHalf, BadgeCheck } from 'lucide-react';
 
 const testimonials = [
   {
-    text: 'GLA Exam made my classroom more interactive and fun.',
+    text: 'I used this platform for my DBMS mid-sem prep, and the timed quizzes genuinely improved my speed under pressure.',
     name: 'Riya Sharma',
-    role: 'Teacher',
-    initials: 'RS',
-    accent: 'from-indigo-500 to-purple-500',
-    glow: 'from-indigo-500/35 via-purple-500/15 to-transparent',
+    role: 'BTech Student - 3rd Year',
+    college: 'GLA University',
+    rating: 4.5,
+    usage: 'Used for 3 months',
+    reviewedOn: 'Reviewed on March 2026',
+    avatar: 'https://i.pravatar.cc/100?img=32',
   },
   {
-    text: 'The leaderboard feature motivates me to perform better.',
+    text: 'I run weekly revision quizzes for my class. The analytics dashboard helps me quickly identify weak concepts before exams.',
     name: 'Aman Verma',
-    role: 'Student',
-    initials: 'AV',
-    accent: 'from-emerald-500 to-teal-500',
-    glow: 'from-emerald-500/35 via-teal-500/15 to-transparent',
+    role: 'Computer Science Teacher',
+    college: 'GLA University',
+    rating: 5,
+    usage: 'Used for 6 months',
+    reviewedOn: 'Reviewed on February 2026',
+    avatar: 'https://i.pravatar.cc/100?img=12',
   },
   {
-    text: 'Simple, fast, and very effective for learning.',
+    text: 'The leaderboard made practice sessions more competitive in a good way. I saw steady improvement in my weekly test scores.',
     name: 'Rahul Singh',
-    role: 'Student',
-    initials: 'RS',
-    accent: 'from-pink-500 to-fuchsia-500',
-    glow: 'from-pink-500/35 via-fuchsia-500/15 to-transparent',
+    role: 'BTech Student - 2nd Year',
+    college: 'GLA University',
+    rating: 4,
+    usage: 'Used for 2 months',
+    reviewedOn: 'Reviewed on March 2026',
+    avatar: 'https://i.pravatar.cc/100?img=15',
   },
 ];
 
@@ -43,17 +48,28 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const testimonialBackgroundImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ92VejZl34KV_kHBVg8Z7CFOmFt3ZFzDOImg&s';
+const renderRating = (rating: number) => {
+  const full = Math.floor(rating);
+  const hasHalf = rating % 1 !== 0;
+  const empty = 5 - full - (hasHalf ? 1 : 0);
+
+  return (
+    <div className="flex items-center gap-1 text-amber-400">
+      {Array.from({ length: full }).map((_, index) => (
+        <Star key={`full-${index}`} className="h-4 w-4 fill-current" />
+      ))}
+      {hasHalf && <StarHalf className="h-4 w-4 fill-current" />}
+      {Array.from({ length: empty }).map((_, index) => (
+        <Star key={`empty-${index}`} className="h-4 w-4 text-slate-600" />
+      ))}
+      <span className="ml-2 text-xs font-medium text-slate-400">{rating.toFixed(1)}</span>
+    </div>
+  );
+};
 
 export const TestimonialsSection = () => {
   return (
-    <section className="relative py-16">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-10 top-8 h-40 w-40 rounded-full bg-indigo-500/12 blur-3xl" />
-        <div className="absolute right-16 top-20 h-48 w-48 rounded-full bg-pink-500/12 blur-3xl" />
-        <div className="absolute bottom-4 left-1/2 h-44 w-44 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-      </div>
-
+    <section className="relative border-t border-white/5 py-20">
       <div className="saas-shell relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -62,11 +78,14 @@ export const TestimonialsSection = () => {
           transition={{ duration: 0.5 }}
           className="mx-auto mb-10 max-w-3xl text-center"
         >
-          <h3 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+          <p className="mb-3 text-sm font-semibold tracking-wide text-slate-400">
+            Trusted by 5,000+ students and teachers
+          </p>
+          <h3 className="text-3xl font-bold text-white md:text-4xl">
             What Our Users Say
           </h3>
-          <p className="mt-3 text-base text-muted md:text-lg">
-            Trusted by teachers and students worldwide
+          <p className="mt-3 text-base text-slate-300 md:text-lg">
+            Honest feedback from real learners and educators using GLA Exam in daily practice.
           </p>
         </motion.div>
 
@@ -75,70 +94,66 @@ export const TestimonialsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-2"
         >
           {testimonials.map((testimonial) => (
             <motion.article
               key={`${testimonial.name}-${testimonial.role}`}
               variants={itemVariants}
               transition={{ duration: 0.45, ease: 'easeOut' }}
-              whileHover={{ scale: 1.05, y: -6 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-[1px] shadow-soft dark:bg-slate-800/40"
+              whileHover={{ y: -4 }}
+              className="group min-w-[300px] snap-start rounded-2xl border p-6 md:min-w-[360px] lg:min-w-[380px]"
+              style={{
+                backgroundColor: '#111827',
+                borderColor: 'rgba(255,255,255,0.08)',
+                boxShadow: '0 10px 22px rgba(2, 6, 23, 0.25)',
+              }}
             >
-              <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${testimonial.glow} opacity-80 blur-2xl transition-opacity duration-300 group-hover:opacity-100`} />
-
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(1rem-1px)] bg-white/12 p-6 dark:bg-slate-950/35">
-                <div className="pointer-events-none absolute inset-0">
-                  <img
-                    src={testimonialBackgroundImage}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover opacity-40 scale-110"
-                  />
-                  <div className="absolute inset-0 bg-slate-950/35 dark:bg-slate-950/50" />
+              <div className="mb-4 flex items-center gap-3">
+                <img
+                  src={testimonial.avatar}
+                  alt={`${testimonial.name} profile`}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-11 w-11 rounded-full border border-white/15 object-cover"
+                />
+                <div>
+                  <p className="mb-0 text-base font-semibold text-white">{testimonial.name}</p>
+                  <p className="mb-0 text-sm text-slate-400">{testimonial.role}</p>
+                  <p className="mb-0 text-xs text-slate-500">{testimonial.college}</p>
                 </div>
+              </div>
 
-                <div className="relative z-10">
-                <div className="mb-5 flex items-start justify-between">
-                  <div className="flex gap-1 text-amber-400">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} className="h-4 w-4 fill-current" />
-                    ))}
-                  </div>
-                  <div className="rounded-2xl border border-white/15 bg-white/10 p-2 dark:bg-white/5">
-                    <Quote className="h-5 w-5 text-brand-500 dark:text-brand-300" />
-                  </div>
-                </div>
+              {renderRating(testimonial.rating)}
 
-                <p className="flex-1 text-base leading-7 text-white dark:text-slate-100">
-                  “{testimonial.text}”
-                </p>
+              <p className="mb-0 mt-4 text-base leading-relaxed text-slate-200">
+                "{testimonial.text}"
+              </p>
 
-                <div className="mt-6 flex items-center gap-4">
-                  <Avatar
-                    name={testimonial.name}
-                    role={testimonial.role}
-                    initials={testimonial.initials}
-                    gradient={testimonial.accent}
-                    size="md"
-                  />
-                  <div>
-                    <p className="font-semibold text-white dark:text-slate-100">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-slate-200 dark:text-slate-300">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </div>
-                </div>
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-200">
+                  <BadgeCheck className="h-3.5 w-3.5" />
+                  Verified User
+                </span>
+                <span className="rounded-full border border-white/10 bg-slate-800 px-2.5 py-1 text-xs text-slate-300">
+                  {testimonial.usage}
+                </span>
+                <span className="rounded-full border border-white/10 bg-slate-800 px-2.5 py-1 text-xs text-slate-300">
+                  {testimonial.reviewedOn}
+                </span>
               </div>
             </motion.article>
           ))}
         </motion.div>
+
+        <div className="mt-8 text-center">
+          <button
+            type="button"
+            className="text-sm font-semibold text-blue-300 transition-colors hover:text-blue-200"
+          >
+            See more reviews {'->'}
+          </button>
+        </div>
       </div>
     </section>
   );

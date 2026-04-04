@@ -137,8 +137,8 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
       transition={{ duration: 0.5 }}
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-black/40 backdrop-blur-md border-b border-white/10'
-          : 'bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-orange-900/30 backdrop-blur-sm'
+          ? 'bg-white/92 backdrop-blur-sm border-b border-ui-border shadow-soft dark:bg-slate-950/92 dark:border-slate-800/60'
+          : 'bg-white/86 backdrop-blur-sm border-b border-ui-border/80 dark:bg-slate-950/86 dark:border-slate-800/50'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,8 +164,8 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                   onClick={() => handleNavClick(link.page)}
                   className={`relative text-sm font-medium group transition-colors ${
                     currentPage === link.page
-                      ? 'text-white'
-                      : 'text-gray-200 hover:text-white'
+                      ? 'text-brand-600'
+                      : 'text-text-secondary hover:text-text-primary dark:text-slate-300 dark:hover:text-white'
                   }`}
                 >
                   <span className="flex items-center gap-2">
@@ -173,7 +173,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                     {link.label}
                   </span>
                   <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 h-0.5 bg-brand-500 transition-all duration-300 ${
                       currentPage === link.page ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   ></span>
@@ -188,7 +188,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
             <StarBorder as={motion.button}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="relative p-2 text-gray-300 hover:text-white transition-colors"
+              className="relative rounded-lg p-2 text-text-secondary hover:bg-slate-100 hover:text-text-primary transition-colors dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:text-white"
               title="Notifications"
             >
               <Bell className="w-5 h-5" />
@@ -196,7 +196,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                 <motion.span
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+                  className="absolute top-1 right-1 w-2 h-2 bg-ui-error rounded-full"
                 />
               )}
             </StarBorder>
@@ -206,7 +206,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 text-gray-300 hover:text-white transition-colors"
+              className="rounded-lg p-2 text-text-secondary hover:bg-slate-100 hover:text-text-primary transition-colors dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:text-white"
               title={isDarkMode ? 'Light Mode' : 'Dark Mode'}
             >
               <AnimatePresence mode="wait">
@@ -241,19 +241,19 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 transition-all"
+                  className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl border border-ui-border bg-white hover:bg-slate-50 transition-all dark:border-slate-700/70 dark:bg-slate-900/80 dark:hover:bg-slate-800"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                    <User className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                    <User className="w-4 h-4 text-slate-700 dark:text-slate-200" />
                   </div>
-                  <span className="text-sm font-medium text-gray-200">
+                  <span className="text-sm font-medium text-text-primary dark:text-slate-100">
                     {profile?.name?.split(' ')[0] || 'User'}
                   </span>
                   <motion.div
                     animate={{ rotate: isUserMenuOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                    <ChevronDown className="w-4 h-4 text-muted" />
                   </motion.div>
                 </StarBorder>
 
@@ -265,15 +265,15 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-56 rounded-xl bg-gray-900/95 backdrop-blur-md border border-white/10 shadow-2xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-56 rounded-xl bg-white backdrop-blur-sm border border-ui-border shadow-soft overflow-hidden dark:bg-slate-900 dark:border-slate-700"
                     >
-                      <div className="p-4 border-b border-white/10">
-                        <p className="text-sm font-semibold text-gray-200">
+                      <div className="p-4 border-b border-ui-border dark:border-slate-700">
+                        <p className="text-sm font-semibold text-text-primary dark:text-slate-100">
                           {profile?.name || 'User'}
                         </p>
-                        <p className="text-xs text-gray-400">{user.email}</p>
+                        <p className="text-xs text-muted">{user.email}</p>
                         <motion.p
-                          className="text-xs text-purple-400 capitalize mt-1"
+                          className="text-xs text-brand-600 capitalize mt-1"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                         >
@@ -282,18 +282,30 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                       </div>
 
                       <StarBorder as={motion.button}
-                        whileHover={{ backgroundColor: 'rgba(168, 85, 247, 0.1)' }}
+                        whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.08)' }}
                         onClick={handleProfileClick}
-                        className="w-full px-4 py-3 text-left flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 text-text-secondary hover:text-text-primary transition-colors dark:text-slate-300 dark:hover:text-white"
                       >
                         <User className="w-4 h-4" />
-                        <span>View Profile</span>
+                        <span>My Profile</span>
                       </StarBorder>
 
                       <StarBorder as={motion.button}
-                        whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}
+                        whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.08)' }}
+                        onClick={() => {
+                          onNavigate(user.role === 'admin' ? 'admin-dashboard' : 'dashboard');
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 text-text-secondary hover:text-text-primary transition-colors dark:text-slate-300 dark:hover:text-white"
+                      >
+                        <Settings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </StarBorder>
+
+                      <StarBorder as={motion.button}
+                        whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.08)' }}
                         onClick={handleLogout}
-                        className="w-full px-4 py-3 text-left flex items-center gap-3 text-gray-300 hover:text-red-400 transition-colors border-t border-white/10"
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 text-text-secondary hover:text-ui-error transition-colors border-t border-ui-border dark:border-slate-700 dark:text-slate-300"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Logout</span>
@@ -309,7 +321,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
+              className="md:hidden rounded-lg p-2 text-text-secondary hover:bg-slate-100 hover:text-text-primary transition-colors dark:text-slate-300 dark:hover:bg-slate-800"
             >
               <AnimatePresence mode="wait">
                 {isMenuOpen ? (
@@ -344,7 +356,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden border-t border-white/10 bg-black/40 backdrop-blur-sm"
+              className="md:hidden border-t border-ui-border bg-white/95 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/95"
             >
               <div className="py-4 space-y-2">
                 {navLinks.map((link, index) => (
@@ -358,8 +370,8 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                       onClick={() => handleNavClick(link.page)}
                       className={`w-full text-left px-4 py-2 rounded-lg transition-all flex items-center gap-2 ${
                         currentPage === link.page
-                          ? 'bg-purple-500/20 text-white'
-                          : 'text-gray-300 hover:text-white hover:bg-purple-500/10'
+                          ? 'bg-brand-500/12 text-brand-700 dark:text-brand-300'
+                          : 'text-text-secondary hover:text-text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/80'
                       }`}
                     >
                       {link.icon}
@@ -373,18 +385,18 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: navLinks.length * 0.05 }}
-                    className="border-t border-white/10 mt-4 pt-4"
+                    className="border-t border-ui-border mt-4 pt-4 dark:border-slate-700"
                   >
                     <StarBorder as="button"
                       onClick={handleProfileClick}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:text-white hover:bg-purple-500/10 transition-all rounded-lg flex items-center gap-2"
+                      className="w-full text-left px-4 py-2 text-text-secondary hover:text-text-primary hover:bg-slate-100 transition-all rounded-lg flex items-center gap-2 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/80"
                     >
                       <User className="w-4 h-4" />
                       View Profile
                     </StarBorder>
                     <StarBorder as="button"
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:text-red-400 hover:bg-red-500/10 transition-all rounded-lg flex items-center gap-2 mt-2"
+                      className="w-full text-left px-4 py-2 text-text-secondary hover:text-ui-error hover:bg-red-50 transition-all rounded-lg flex items-center gap-2 mt-2 dark:text-slate-300 dark:hover:bg-red-500/10"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -397,14 +409,14 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: navLinks.length * 0.05 }}
-                    className="border-t border-white/10 mt-4 pt-4 space-y-2"
+                    className="border-t border-ui-border mt-4 pt-4 space-y-2 dark:border-slate-700"
                   >
                     <StarBorder as="button"
                       onClick={() => {
                         onNavigate('login');
                         setIsMenuOpen(false);
                       }}
-                      className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 rounded-lg bg-brand-500 text-white font-medium hover:bg-brand-600 transition-all flex items-center justify-center gap-2"
                     >
                       <LogIn className="w-4 h-4" />
                       Login
@@ -414,7 +426,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
                         onNavigate('signup');
                         setIsMenuOpen(false);
                       }}
-                      className="w-full px-4 py-2 rounded-lg border border-purple-500 text-purple-400 font-medium hover:bg-purple-500/10 transition-all flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 rounded-lg border border-ui-border text-text-primary font-medium hover:bg-slate-100 transition-all flex items-center justify-center gap-2 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
                     >
                       <UserPlus className="w-4 h-4" />
                       Sign Up
@@ -433,7 +445,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 md:hidden bg-black/20 z-40"
+          className="fixed inset-0 md:hidden bg-slate-900/20 z-40"
           onClick={() => setIsMenuOpen(false)}
         />
       )}

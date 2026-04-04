@@ -11,9 +11,12 @@ import SplitText from '../components/SplitText';
 import { useAuth } from '../contexts/AuthContext';
 import { Footer } from '../components/Footer';
 import { quizAPI, resultAPI } from '../lib/api';
-import { BookOpen, Award, Key } from 'lucide-react';
+import { BookOpen, Award, Key, Settings } from 'lucide-react';
 import type { Page } from '../types/navigation';
 import StarBorder from '../components/StarBorder';
+import ProfileCard from '../components/ProfileCard';
+import DashboardStats from '../components/DashboardStats';
+import SettingsPage from './SettingsPage';
 
 const MAX_VIOLATIONS = 3;
 const RESULT_PAGE_SIZE = 10;
@@ -68,8 +71,9 @@ const calculateStats = (data: ApiResult[]) => {
 };
 
 export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardProps) => {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [refreshProfile, setRefreshProfile] = useState(false);
 
   const [quizzes, setQuizzes] = useState<ApiQuiz[]>([]);
   const [quizSearchInput, setQuizSearchInput] = useState('');
@@ -319,17 +323,50 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
       animate={{ opacity: 1 }}
       className="space-y-8"
     >
+      {/* Welcome Section */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-text-primary dark:text-slate-100">
+            Welcome back, {profile?.name?.split(' ')[0]} 👋
+          </h2>
+          <p className="mt-1 text-sm text-muted">Track your quizzes and achievements.</p>
+        </div>
+        <button
+          onClick={() => setActiveTab('settings')}
+          className="inline-flex items-center gap-2 rounded-xl border border-ui-border bg-white px-6 py-3 text-sm font-semibold text-text-primary hover:bg-slate-50 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        >
+          <Settings className="h-4 w-4" />
+          Settings
+        </button>
+      </div>
+
+      {/* Profile Card */}
+      {profile && (
+        <ProfileCard
+          user={profile}
+          onProfileUpdate={() => setRefreshProfile(!refreshProfile)}
+        />
+      )}
+
+      {/* Dashboard Stats */}
+      {profile && (
+        <div>
+          <h3 className="text-2xl font-bold text-text-primary dark:text-slate-100 mb-6">Your Performance</h3>
+          <DashboardStats userId={profile.id} />
+        </div>
+      )}
+
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Student dashboard</h2>
-          <p className="mt-1 text-sm text-white/70">Track your quizzes and achievements.</p>
+          <h2 className="text-2xl font-bold text-text-primary dark:text-slate-100 mt-8">Quick Actions</h2>
+          <p className="mt-1 text-sm text-muted">Start taking quizzes to improve your skills.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <StarBorder as={motion.button}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowJoinModal(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition"
           >
             <Key className="h-4 w-4" />
             Join by Code
@@ -338,7 +375,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('quizzes')}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/15 transition"
+            className="inline-flex items-center gap-2 rounded-xl border border-ui-border bg-white px-6 py-3 text-sm font-semibold text-text-primary hover:bg-slate-50 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           >
             Browse Quizzes
           </StarBorder>
@@ -349,11 +386,11 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="glass rounded-3xl border border-white/10 p-8 shadow-glass text-center"
+        className="saas-card rounded-2xl text-center"
       >
         <SplitText
           text="Test Your Knowledge Today"
-          className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300"
+          className="text-4xl md:text-5xl font-bold text-text-primary dark:text-slate-100"
           delay={50}
           duration={1}
           ease="power3.out"
@@ -362,7 +399,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
           threshold={0.1}
           showCallback
         />
-        <p className="mt-4 text-white/70 max-w-2xl mx-auto">
+        <p className="mt-4 text-muted max-w-2xl mx-auto">
           Take quizzes crafted by your teachers. Learn, improve, and track your progress in real-time.
         </p>
       </motion.div>
@@ -370,34 +407,34 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {loadingResults && results.length === 0 ? (
           Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="glass rounded-3xl border border-white/10 p-6 shadow-glass animate-pulse">
-              <div className="h-3 w-28 rounded bg-white/20" />
-              <div className="mt-4 h-8 w-16 rounded bg-white/20" />
-              <div className="mt-5 h-3 w-40 rounded bg-white/20" />
+            <div key={index} className="saas-card rounded-2xl p-6 animate-pulse">
+              <div className="h-3 w-28 rounded bg-slate-200" />
+              <div className="mt-4 h-8 w-16 rounded bg-slate-200" />
+              <div className="mt-5 h-3 w-40 rounded bg-slate-200" />
             </div>
           ))
         ) : (
           <>
-        <div className="glass rounded-3xl border border-white/10 p-6 shadow-glass">
-          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Quizzes Attempted</p>
-          <p className="mt-3 text-3xl font-bold text-white">{stats.totalAttempts}</p>
-          <div className="mt-4 flex items-center gap-2 text-xs text-white/70">
+        <div className="saas-card rounded-2xl p-6">
+          <p className="text-sm font-semibold text-muted uppercase tracking-wide">Quizzes Attempted</p>
+          <p className="mt-3 text-3xl font-bold text-text-primary dark:text-slate-100">{stats.totalAttempts}</p>
+          <div className="mt-4 flex items-center gap-2 text-xs text-muted">
             <BookOpen className="h-4 w-4" />
             <span>Keep going, you're doing great!</span>
           </div>
         </div>
-        <div className="glass rounded-3xl border border-white/10 p-6 shadow-glass">
-          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Average score</p>
-          <p className="mt-3 text-3xl font-bold text-white">{stats.averageScore}%</p>
-          <div className="mt-4 flex items-center gap-2 text-xs text-white/70">
+        <div className="saas-card rounded-2xl p-6">
+          <p className="text-sm font-semibold text-muted uppercase tracking-wide">Average score</p>
+          <p className="mt-3 text-3xl font-bold text-text-primary dark:text-slate-100">{stats.averageScore}%</p>
+          <div className="mt-4 flex items-center gap-2 text-xs text-muted">
             <Award className="h-4 w-4" />
             <span>Keep improving!</span>
           </div>
         </div>
-        <div className="glass rounded-3xl border border-white/10 p-6 shadow-glass">
-          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Best score</p>
-          <p className="mt-3 text-3xl font-bold text-white">{stats.bestScore}%</p>
-          <div className="mt-4 flex items-center gap-2 text-xs text-white/70">
+        <div className="saas-card rounded-2xl p-6">
+          <p className="text-sm font-semibold text-muted uppercase tracking-wide">Best score</p>
+          <p className="mt-3 text-3xl font-bold text-text-primary dark:text-slate-100">{stats.bestScore}%</p>
+          <div className="mt-4 flex items-center gap-2 text-xs text-muted">
             <Award className="h-4 w-4" />
             <span>Challenge yourself more.</span>
           </div>
@@ -409,10 +446,10 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-3xl border border-white/10 p-8 shadow-glass"
+        className="saas-card rounded-2xl"
       >
-        <h3 className="text-lg font-semibold text-white">Next steps</h3>
-        <p className="mt-2 text-sm text-white/70">Choose a quiz and track your progress with instant feedback.</p>
+        <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100">Next steps</h3>
+        <p className="mt-2 text-sm text-muted">Choose a quiz and track your progress with instant feedback.</p>
       </motion.div>
     </motion.div>
   );
@@ -629,7 +666,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
 
         <div className="h-2 w-full rounded-full bg-white/10">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 transition-all"
             style={{ width: `${((secureQuestionIndex + 1) / secureAttempt.questions.length) * 100}%` }}
           />
         </div>
@@ -648,12 +685,12 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
                 onClick={() => handleSecureAnswerSelect(q._id, idx)}
                 className={`flex items-center gap-4 rounded-2xl border px-5 py-4 text-left transition ${
                   currentAnswer?.selectedAnswer === idx
-                    ? 'border-purple-400 bg-white/10'
+                      ? 'border-brand-400 bg-white/10'
                     : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
                 }`}
               >
                 <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 ${
-                  currentAnswer?.selectedAnswer === idx ? 'border-purple-400 bg-purple-500' : 'border-white/20'
+                    currentAnswer?.selectedAnswer === idx ? 'border-brand-400 bg-brand-500' : 'border-white/20'
                 }`}>
                   {currentAnswer?.selectedAnswer === idx
                     ? <div className="h-3 w-3 rounded-full bg-white" />
@@ -687,7 +724,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
                 }
               }}
               disabled={isAutoSubmitting}
-              className="rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-50 transition"
+              className="rounded-xl bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-50 transition"
             >
               {secureQuestionIndex === secureAttempt.questions.length - 1
                 ? (isAutoSubmitting ? 'Submitting...' : 'Submit Quiz')
@@ -705,7 +742,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
         <div className="glass rounded-3xl border border-white/10 p-8 text-center shadow-glass">
-          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
+          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600 shadow-lg">
             <Award className="h-12 w-12 text-white" />
           </div>
           <h2 className="mb-2 text-3xl font-bold text-white">
@@ -715,7 +752,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
             {secureResult.autoSubmitted ? 'Your quiz was submitted automatically.' : 'Great job completing the quiz.'}
           </p>
           <div className="mb-6 rounded-3xl bg-white/10 p-6">
-            <p className="mb-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-5xl font-bold text-transparent">
+            <p className="mb-2 bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 bg-clip-text text-5xl font-bold text-transparent">
               {secureResult.score}/{secureResult.totalQuestions}
             </p>
             <p className="text-xl text-white/70">Score: {secureResult.percentage}%</p>
@@ -727,7 +764,7 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => { setSecureResult(null); setActiveTab('dashboard'); }}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 px-8 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
           >
             Back to Dashboard
           </StarBorder>
@@ -751,16 +788,37 @@ export const StudentDashboard = ({ onNavigate: _onNavigate }: StudentDashboardPr
     );
   };
 
+  const renderSettings = () => {
+    if (!profile) return null;
+    return (
+      <SettingsPage
+        user={profile}
+        onLogout={() => {
+          signOut();
+          setActiveTab('dashboard');
+        }}
+      />
+    );
+  };
+
   return (
     <BackgroundImageLayout fixedImage>
       <div className="flex">
-        <Sidebar activeTab={activeTab} onTabChange={setActiveTab} role="student" />
-        <main className="flex-1 p-8">
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          role="student"
+          onLogout={() => {
+            onNavigate?.('login');
+          }}
+        />
+        <main className="flex-1 p-8 bg-transparent">
           {activeTab === 'dashboard' && renderDashboard()}
           {activeTab === 'quizzes' && renderQuizList()}
           {activeTab === 'results' && renderResults()}
           {activeTab === 'secure-attempt' && renderSecureAttempt()}
           {activeTab === 'secure-result' && renderSecureResult()}
+          {activeTab === 'settings' && renderSettings()}
         </main>
       </div>
 

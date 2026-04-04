@@ -7,5 +7,9 @@ interface CardProps {
 }
 
 export const Card = ({ children, className = '', hover = false }: CardProps) => {
-  return <div className={`saas-card ${hover ? 'saas-card-hover' : ''} ${className}`.trim()}>{children}</div>;
+  return (
+    <div className={`saas-card rounded-2xl ${hover ? 'saas-card-hover' : ''} ${className}`.trim()}>
+      {children}
+    </div>
+  );
 };

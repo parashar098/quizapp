@@ -52,8 +52,8 @@ const QuizCardComponent = ({
             <p className="mt-3 text-xs text-muted">By {teacherName}</p>
           )}
         </div>
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-lg">
-          <span className="text-white font-semibold">{quiz.duration}m</span>
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 border border-brand-200">
+          <span className="text-brand-700 font-semibold">{quiz.duration}m</span>
         </div>
       </div>
 
@@ -107,7 +107,7 @@ const QuizCardComponent = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => quizId && onStart(quizId)}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 text-xs font-semibold text-white shadow-lg transition hover:shadow-xl"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2 text-xs font-semibold text-white shadow-soft transition hover:bg-brand-600"
             >
               <Play className="w-4 h-4" />
               <span>Start</span>

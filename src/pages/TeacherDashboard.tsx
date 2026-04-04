@@ -161,8 +161,8 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Teacher dashboard</h2>
-          <p className="mt-1 text-sm text-white/70">
+          <h2 className="text-3xl font-bold text-text-primary dark:text-slate-100">Teacher dashboard</h2>
+          <p className="mt-1 text-sm text-muted">
             Quick overview of your activity and most recent quizzes.
           </p>
         </div>
@@ -171,7 +171,7 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate?.('profile')}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 px-6 py-3 text-sm font-semibold text-white shadow-lg transition"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-ui-border hover:bg-slate-50 px-6 py-3 text-sm font-semibold text-text-primary shadow-soft transition dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
           >
             <User className="h-5 w-5" />
             Profile
@@ -180,7 +180,7 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('create')}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition"
           >
             <PlusCircle className="h-5 w-5" />
             Create New Quiz
@@ -192,11 +192,11 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="glass rounded-3xl border border-white/10 p-8 shadow-glass text-center"
+        className="saas-card rounded-2xl text-center"
       >
         <SplitText
           text="Create and Conduct Quizzes Easily"
-          className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300"
+          className="text-4xl md:text-5xl font-bold text-text-primary dark:text-slate-100"
           delay={50}
           duration={1}
           ease="power3.out"
@@ -206,7 +206,7 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
           threshold={0.1}
           showCallback
         />
-        <p className="mt-4 text-white/70 max-w-2xl mx-auto">
+        <p className="mt-4 text-muted max-w-2xl mx-auto">
           Empower your students with interactive quizzes. Create, customize, and monitor assessments in real-time.
         </p>
       </motion.div>
@@ -217,31 +217,31 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
           value={stats.totalQuizzes}
           subtitle="Created by you"
           icon={BookOpen}
-          colorClass="from-indigo-500 via-purple-500 to-pink-500"
+          colorClass="from-brand-100 to-brand-50"
         />
         <DashboardStatCard
           title="Students Engaged"
           value={stats.totalStudents}
           subtitle="Unique participants"
           icon={Users}
-          colorClass="from-emerald-400 via-cyan-400 to-blue-500"
+          colorClass="from-emerald-100 to-emerald-50"
         />
         <DashboardStatCard
           title="Total Attempts"
           value={stats.totalAttempts}
           subtitle="Quiz attempts recorded"
           icon={TrendingUp}
-          colorClass="from-indigo-500 via-purple-500 to-pink-500"
+          colorClass="from-brand-100 to-brand-50"
         />
       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-3xl border border-white/10 p-8 shadow-glass"
+        className="saas-card rounded-2xl"
       >
-        <h3 className="text-xl font-semibold text-white">Quick tips</h3>
-        <p className="mt-2 text-sm text-white/70">
+        <h3 className="text-xl font-semibold text-text-primary dark:text-slate-100">Quick tips</h3>
+        <p className="mt-2 text-sm text-muted">
           Use the quizzes tab to manage your sets. Share the quiz code with students for easy access.
         </p>
       </motion.div>
@@ -256,51 +256,51 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Create New Quiz</h2>
-          <p className="mt-1 text-sm text-white/70">Build a new quiz with questions and instant scoring.</p>
+          <h2 className="text-3xl font-bold text-text-primary dark:text-slate-100">Create New Quiz</h2>
+          <p className="mt-1 text-sm text-muted">Build a new quiz with questions and instant scoring.</p>
         </div>
         <StarBorder as={motion.button}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setActiveTab('dashboard')}
-          className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
+          className="inline-flex items-center gap-2 rounded-xl border border-ui-border bg-white px-5 py-2 text-sm font-semibold text-text-primary hover:bg-slate-50 transition dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
         >
           Back to Dashboard
         </StarBorder>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="glass rounded-3xl border border-white/10 p-6 shadow-glass">
-          <h3 className="text-lg font-semibold text-white mb-4">Quiz Details</h3>
+        <div className="saas-card rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100 mb-4">Quiz Details</h3>
 
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Title</label>
+              <label className="block text-sm font-medium text-muted mb-2">Title</label>
               <input
                 type="text"
                 value={quizTitle}
                 onChange={(e) => setQuizTitle(e.target.value)}
-                className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder-white/40 focus:border-purple-400 focus:bg-white/10 focus:outline-none"
+                className="input-modern"
                 placeholder="Enter quiz title..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Description</label>
+              <label className="block text-sm font-medium text-muted mb-2">Description</label>
               <textarea
                 value={quizDescription}
                 onChange={(e) => setQuizDescription(e.target.value)}
                 rows={4}
-                className="w-full resize-none rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder-white/40 focus:border-purple-400 focus:bg-white/10 focus:outline-none"
+                className="input-modern resize-none"
                 placeholder="Describe what students will learn..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Duration (minutes)</label>
+              <label className="block text-sm font-medium text-muted mb-2">Duration (minutes)</label>
               <input
                 type="number"
                 value={quizDuration}
                 onChange={(e) => setQuizDuration(Number(e.target.value))}
-                className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder-white/40 focus:border-purple-400 focus:bg-white/10 focus:outline-none"
+                className="input-modern"
                 min={1}
               />
             </div>
@@ -314,8 +314,8 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
           />
 
           {questions.length > 0 && (
-            <div className="glass rounded-3xl border border-white/10 p-6 shadow-glass">
-              <h3 className="text-lg font-semibold text-white mb-4">
+            <div className="saas-card rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100 mb-4">
                 Added Questions ({questions.length})
               </h3>
               <div className="space-y-4">
@@ -324,11 +324,11 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                    className="rounded-xl border border-ui-border bg-white p-5 dark:bg-slate-900 dark:border-slate-700"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <p className="text-base font-semibold text-white">
+                        <p className="text-base font-semibold text-text-primary dark:text-slate-100">
                           {index + 1}. {q.question_text}
                         </p>
                         <div className="mt-3 space-y-2">
@@ -337,13 +337,13 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
                               key={i}
                               className={`rounded-xl px-3 py-2 text-sm ${
                                 i === q.correct_answer
-                                  ? 'bg-emerald-500/20 text-emerald-100'
-                                  : 'bg-white/10 text-white/70'
+                                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-100'
+                                  : 'bg-slate-100 text-text-secondary dark:bg-slate-800 dark:text-slate-300'
                               }`}
                             >
                               {String.fromCharCode(65 + i)}. {opt}
                               {i === q.correct_answer && (
-                                <span className="ml-2 font-semibold text-emerald-100">(Correct)</span>
+                                <span className="ml-2 font-semibold text-emerald-700 dark:text-emerald-100">(Correct)</span>
                               )}
                             </p>
                           ))}
@@ -351,7 +351,7 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
                       </div>
                       <StarBorder as="button"
                         onClick={() => setQuestions(questions.filter((_, i) => i !== index))}
-                        className="rounded-xl bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 hover:bg-red-500/30 transition"
+                        className="rounded-xl bg-red-50 px-4 py-2 text-sm font-semibold text-ui-error hover:bg-red-100 transition"
                       >
                         Remove
                       </StarBorder>
@@ -367,7 +367,7 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
             whileTap={{ scale: 0.98 }}
             onClick={handleCreateQuiz}
             disabled={loading || !quizTitle || questions.length === 0}
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-xl bg-brand-500 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Creating Quiz…' : 'Publish Quiz'}
           </StarBorder>
@@ -384,14 +384,14 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">My Quizzes</h2>
-          <p className="mt-1 text-sm text-white/70">Manage your quizzes and view results in one place.</p>
+          <h2 className="text-3xl font-bold text-text-primary dark:text-slate-100">My Quizzes</h2>
+          <p className="mt-1 text-sm text-muted">Manage your quizzes and view results in one place.</p>
         </div>
         <StarBorder as={motion.button}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setActiveTab('create')}
-          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
+          className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition"
         >
           <PlusCircle className="h-5 w-5" />
           Create Quiz
@@ -399,15 +399,15 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
       </div>
 
       {quizzes.length === 0 ? (
-        <div className="glass rounded-3xl border border-white/10 p-12 text-center shadow-glass">
-          <BookOpen className="mx-auto mb-4 h-16 w-16 text-white/60" />
-          <h3 className="text-xl font-semibold text-white mb-2">No quizzes yet</h3>
-          <p className="text-sm text-white/70 mb-6">Create your first quiz to get started.</p>
+        <div className="saas-card rounded-2xl p-12 text-center">
+          <BookOpen className="mx-auto mb-4 h-16 w-16 text-muted" />
+          <h3 className="text-xl font-semibold text-text-primary dark:text-slate-100 mb-2">No quizzes yet</h3>
+          <p className="text-sm text-muted mb-6">Create your first quiz to get started.</p>
           <StarBorder as={motion.button}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('create')}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft hover:bg-brand-600 transition"
           >
             Create Quiz
           </StarBorder>
@@ -437,27 +437,27 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Settings</h2>
-          <p className="mt-1 text-sm text-white/70">Manage your account and preferences.</p>
+          <h2 className="text-3xl font-bold text-text-primary dark:text-slate-100">Settings</h2>
+          <p className="mt-1 text-sm text-muted">Manage your account and preferences.</p>
         </div>
         <StarBorder as={motion.button}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setActiveTab('dashboard')}
-          className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/15 transition"
+          className="inline-flex items-center gap-2 rounded-xl border border-ui-border bg-white px-6 py-3 text-sm font-semibold text-text-primary hover:bg-slate-50 transition dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
         >
           Dashboard
         </StarBorder>
       </div>
 
-      <div className="glass rounded-3xl border border-white/10 p-8 shadow-glass">
-        <h3 className="text-lg font-semibold text-white">Notifications</h3>
-        <p className="mt-2 text-sm text-white/70">We will notify you when students complete your quizzes and when new features arrive.</p>
+      <div className="saas-card rounded-2xl">
+        <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100">Notifications</h3>
+        <p className="mt-2 text-sm text-muted">We will notify you when students complete your quizzes and when new features arrive.</p>
       </div>
 
-      <div className="glass rounded-3xl border border-white/10 p-8 shadow-glass">
-        <h3 className="text-lg font-semibold text-white">Support</h3>
-        <p className="mt-2 text-sm text-white/70">Have questions? Reach out to our support team or explore the documentation.</p>
+      <div className="saas-card rounded-2xl">
+        <h3 className="text-lg font-semibold text-text-primary dark:text-slate-100">Support</h3>
+        <p className="mt-2 text-sm text-muted">Have questions? Reach out to our support team or explore the documentation.</p>
       </div>
     </motion.div>
   );
@@ -465,7 +465,14 @@ export const TeacherDashboard = ({ onNavigate }: TeacherDashboardProps) => {
   return (
     <BackgroundImageLayout fixedImage>
       <div className="flex">
-        <Sidebar activeTab={activeTab} onTabChange={setActiveTab} role="teacher" />
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          role="teacher"
+          onLogout={() => {
+            onNavigate?.('login');
+          }}
+        />
         <main className="flex-1 p-8">
           {activeTab === 'dashboard' && renderDashboard()}
           {activeTab === 'create' && renderCreateQuiz()}

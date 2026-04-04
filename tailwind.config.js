@@ -6,16 +6,16 @@ export default {
         extend: {
             colors: {
                 brand: {
-                    50: '#ECFEFA',
-                    100: '#CCFBF1',
-                    200: '#99F6E4',
-                    300: '#5EEAD4',
-                    400: '#2DD4BF',
-                    500: '#14B8A6',
-                    600: '#0D9488',
-                    700: '#0F766E',
-                    800: '#115E59',
-                    900: '#134E4A',
+                    50: '#EFF6FF',
+                    100: '#DBEAFE',
+                    200: '#BFDBFE',
+                    300: '#93C5FD',
+                    400: '#60A5FA',
+                    500: '#3B82F6',
+                    600: '#2563EB',
+                    700: '#1D4ED8',
+                    800: '#1E40AF',
+                    900: '#1E3A8A',
                 },
                 accent: {
                     50: '#F8FAFC',
@@ -35,10 +35,11 @@ export default {
                 },
                 text: {
                     primary: '#0F172A',
-                    secondary: '#64748B',
+                    secondary: '#475569',
                 },
                 ui: {
-                    border: '#E2E8F0',
+                    border: '#E5E7EB',
+                    success: '#10B981',
                     error: '#EF4444',
                     warning: '#F59E0B',
                 },
@@ -69,13 +70,13 @@ export default {
                 widest: '0.1em',
             },
             boxShadow: {
-                glass: '0 12px 40px rgba(0, 0, 0, 0.12)',
-                soft: '0 10px 30px rgba(15, 23, 42, 0.08)',
-                premium: '0 22px 45px rgba(15, 23, 42, 0.14)',
+                glass: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                soft: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                premium: '0 8px 24px rgba(0, 0, 0, 0.08)',
             },
             backgroundImage: {
-                'gradient-brand': 'linear-gradient(90deg, #0F766E 0%, #14B8A6 100%)',
-                'gradient-surface': 'radial-gradient(circle at 15% 20%, rgba(15, 118, 110, 0.16), transparent 38%), radial-gradient(circle at 80% 0%, rgba(51, 65, 85, 0.14), transparent 32%)',
+                'gradient-brand': 'linear-gradient(90deg, #1E293B 0%, #334155 42%, #3B82F6 100%)',
+                'gradient-surface': 'radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.14), transparent 38%), radial-gradient(circle at 80% 0%, rgba(30, 41, 59, 0.12), transparent 32%)',
             },
             keyframes: {
                 float: {

@@ -13,23 +13,23 @@ export const TabWarningModal = ({ violations, maxViolations, onDismiss }: TabWar
   const isFinal = remaining <= 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/35 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2 }}
-        className="mx-4 w-full max-w-md rounded-3xl border border-red-400/40 bg-slate-900/95 p-8 shadow-2xl backdrop-blur-lg"
+        className="mx-4 w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 shadow-soft dark:border-red-900/40 dark:bg-slate-900"
       >
         <div className="flex flex-col items-center text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/20">
-            <AlertTriangle className="h-8 w-8 text-red-400" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-50 dark:bg-red-500/20">
+            <AlertTriangle className="h-8 w-8 text-ui-error" />
           </div>
 
-          <h2 className="mb-2 text-2xl font-bold text-white">
+          <h2 className="mb-2 text-2xl font-bold text-text-primary dark:text-slate-100">
             {isFinal ? 'Quiz Auto-Submitted' : 'Tab Switch Detected'}
           </h2>
 
-          <p className="mb-4 text-white/70">
+          <p className="mb-4 text-muted">
             {isFinal
               ? 'You exceeded the maximum number of tab switches. Your quiz has been automatically submitted.'
               : `You switched away from this tab. This is violation ${violations} of ${maxViolations}.`}
@@ -38,7 +38,7 @@ export const TabWarningModal = ({ violations, maxViolations, onDismiss }: TabWar
           {!isFinal && (
             <p
               className={`mb-6 text-sm font-semibold ${
-                remaining === 1 ? 'text-red-400' : 'text-amber-400'
+                remaining === 1 ? 'text-ui-error' : 'text-ui-warning'
               }`}
             >
               {remaining === 1
@@ -50,7 +50,7 @@ export const TabWarningModal = ({ violations, maxViolations, onDismiss }: TabWar
           {!isFinal && (
             <StarBorder as="button"
               onClick={onDismiss}
-              className="rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl"
+              className="rounded-xl bg-brand-500 px-8 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-600"
             >
               Continue Quiz
             </StarBorder>

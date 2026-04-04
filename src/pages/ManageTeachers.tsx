@@ -144,7 +144,7 @@ export const ManageTeachers = ({ onNavigate }: ManageTeachersProps) => {
             <StarBorder as={motion.button}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 font-semibold text-white shadow-lg hover:shadow-xl transition"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg hover:shadow-xl transition"
             >
               <Plus className="w-5 h-5" />
               Add Teacher
@@ -283,7 +283,7 @@ export const ManageTeachers = ({ onNavigate }: ManageTeachersProps) => {
                                 <StarBorder as={motion.button}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.95 }}
-                                  className="p-2 rounded-lg bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition"
+                                  className="p-2 rounded-lg bg-slate-500/15 text-slate-600 hover:bg-slate-500/20 transition"
                                   title="Edit"
                                 >
                                   <Edit className="w-4 h-4" />
@@ -320,7 +320,7 @@ export const ManageTeachers = ({ onNavigate }: ManageTeachersProps) => {
                     whileTap={{ scale: 0.98 }}
                     disabled={page <= 1 || loading}
                     onClick={() => fetchTeachers(page - 1)}
-                    className="rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-lg bg-slate-100 px-4 py-2 text-xs font-semibold text-text-primary transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
                   >
                     Previous
                   </StarBorder>
@@ -329,7 +329,7 @@ export const ManageTeachers = ({ onNavigate }: ManageTeachersProps) => {
                     whileTap={{ scale: 0.98 }}
                     disabled={page >= totalPages || loading}
                     onClick={() => fetchTeachers(page + 1)}
-                    className="rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-lg bg-slate-100 px-4 py-2 text-xs font-semibold text-text-primary transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
                   >
                     Next
                   </StarBorder>

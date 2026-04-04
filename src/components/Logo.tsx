@@ -33,14 +33,14 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <defs>
         <linearGradient id="quizGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4F46E5" />
-          <stop offset="50%" stopColor="#A855F7" />
-          <stop offset="100%" stopColor="#EC4899" />
+          <stop offset="0%" stopColor="#1E293B" />
+          <stop offset="55%" stopColor="#334155" />
+          <stop offset="100%" stopColor="#3B82F6" />
         </linearGradient>
         <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4F46E5" stopOpacity="0.3" />
-          <stop offset="50%" stopColor="#A855F7" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="#EC4899" stopOpacity="0.1" />
+          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.28" />
+          <stop offset="50%" stopColor="#1E293B" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="#94A3B8" stopOpacity="0.08" />
         </linearGradient>
       </defs>
 
@@ -99,7 +99,7 @@ export const Logo: React.FC<LogoProps> = ({
     idle: { scale: 1 },
     hover: {
       scale: 1.1,
-      boxShadow: '0 20px 40px rgba(79, 70, 229, 0.3)',
+      boxShadow: '0 20px 40px rgba(59, 130, 246, 0.22)',
     },
   };
 
@@ -120,7 +120,7 @@ export const Logo: React.FC<LogoProps> = ({
         <motion.div variants={iconVariants}>{LogoIcon}</motion.div>
         {showText && (
           <motion.span
-            className={`font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ${dimensions.text} whitespace-nowrap`}
+            className={`font-black bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 bg-clip-text text-transparent ${dimensions.text} whitespace-nowrap`}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
@@ -138,7 +138,7 @@ export const Logo: React.FC<LogoProps> = ({
         {LogoIcon}
       </div>
       {showText && (
-        <span className={`font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ${dimensions.text} whitespace-nowrap`}>
+        <span className={`font-black bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 bg-clip-text text-transparent ${dimensions.text} whitespace-nowrap`}>
           GLA Exam
         </span>
       )}

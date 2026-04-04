@@ -97,27 +97,27 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20"
+        className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-ui-border shadow-2xl dark:bg-slate-950 dark:border-slate-800"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-white/10 backdrop-blur-xl border-b border-white/20 px-8 py-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">Create New Quiz</h2>
+        <div className="sticky top-0 bg-white/90 backdrop-blur-xl border-b border-ui-border px-8 py-6 flex items-center justify-between dark:bg-slate-950/90 dark:border-slate-800">
+          <h2 className="text-2xl font-bold text-text-primary dark:text-slate-100">Create New Quiz</h2>
           <StarBorder as="button"
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-lg transition"
+            className="p-2 hover:bg-slate-100 rounded-lg transition dark:hover:bg-slate-800"
           >
-            <X className="w-6 h-6 text-white" />
+            <X className="w-6 h-6 text-text-primary dark:text-slate-100" />
           </StarBorder>
         </div>
 
         {/* Content */}
-        <div className="p-8 space-y-6 text-white">
+        <div className="p-8 space-y-6 text-text-primary dark:text-slate-100">
           {/* Quiz Details */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Quiz Details</h3>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">
+              <label className="block text-sm font-medium text-muted mb-2">
                 Quiz Title
               </label>
               <input
@@ -125,12 +125,12 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter quiz title"
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:bg-white/20 focus:border-white/40 focus:outline-none transition"
+                className="w-full rounded-xl border border-ui-border bg-slate-50 px-4 py-3 text-text-primary placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:outline-none transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">
+              <label className="block text-sm font-medium text-muted mb-2">
                 Description
               </label>
               <textarea
@@ -138,12 +138,12 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter quiz description"
                 rows={3}
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:bg-white/20 focus:border-white/40 focus:outline-none transition resize-none"
+                className="w-full rounded-xl border border-ui-border bg-slate-50 px-4 py-3 text-text-primary placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:outline-none transition resize-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">
+              <label className="block text-sm font-medium text-muted mb-2">
                 Duration (minutes)
               </label>
               <input
@@ -152,19 +152,19 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                 onChange={(e) => setDuration(parseInt(e.target.value))}
                 min="1"
                 max="120"
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:bg-white/20 focus:border-white/40 focus:outline-none transition"
+                className="w-full rounded-xl border border-ui-border bg-slate-50 px-4 py-3 text-text-primary focus:border-brand-500 focus:bg-white focus:outline-none transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
 
           {/* Add Questions */}
-          <div className="space-y-4 pt-6 border-t border-white/10">
+          <div className="space-y-4 pt-6 border-t border-ui-border dark:border-slate-800">
             <h3 className="text-lg font-semibold">Add Questions</h3>
 
             {/* Question Form */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+            <div className="rounded-2xl border border-ui-border bg-slate-50 p-6 space-y-4 dark:border-slate-800 dark:bg-slate-900/70">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-muted mb-2">
                   Question Text
                 </label>
                 <textarea
@@ -172,13 +172,13 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                   onChange={(e) => setCurrentQuestion({ ...currentQuestion, text: e.target.value })}
                   placeholder="Enter question"
                   rows={2}
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:bg-white/20 focus:border-white/40 focus:outline-none transition resize-none"
+                  className="w-full rounded-xl border border-ui-border bg-white px-4 py-3 text-text-primary placeholder:text-slate-400 focus:border-brand-500 focus:outline-none transition resize-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-muted mb-2">
                     Question Type
                   </label>
                   <select
@@ -191,7 +191,7 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                         options: type === 'true-false' ? ['True', 'False'] : ['', '', '', ''],
                       });
                     }}
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:bg-white/20 focus:border-white/40 focus:outline-none transition"
+                    className="w-full rounded-xl border border-ui-border bg-white px-4 py-3 text-text-primary focus:border-brand-500 focus:outline-none transition dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                   >
                     <option value="multiple-choice">Multiple Choice</option>
                     <option value="true-false">True/False</option>
@@ -199,7 +199,7 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-muted mb-2">
                     Points
                   </label>
                   <input
@@ -208,14 +208,14 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                     onChange={(e) => setCurrentQuestion({ ...currentQuestion, points: parseInt(e.target.value) })}
                     min="1"
                     max="10"
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:bg-white/20 focus:border-white/40 focus:outline-none transition"
+                    className="w-full rounded-xl border border-ui-border bg-white px-4 py-3 text-text-primary focus:border-brand-500 focus:outline-none transition dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                   />
                 </div>
               </div>
 
               {/* Options */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-muted mb-2">
                   Options
                 </label>
                 {currentQuestion.options?.map((option, idx) => (
@@ -236,7 +236,7 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
                         setCurrentQuestion({ ...currentQuestion, options: newOptions });
                       }}
                       placeholder={`Option ${idx + 1}`}
-                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:bg-white/20 focus:border-white/40 focus:outline-none transition disabled:opacity-50"
+                      className="flex-1 rounded-lg border border-ui-border bg-white px-4 py-2 text-text-primary placeholder:text-slate-400 focus:border-brand-500 focus:outline-none transition disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
                       disabled={currentQuestion.type === 'true-false'}
                     />
                   </div>
@@ -244,14 +244,14 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
               </div>
 
               {error && (
-                <div className="bg-red-500/20 border border-red-500/40 text-red-200 px-4 py-2 rounded-lg text-sm">
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200">
                   {error}
                 </div>
               )}
 
               <StarBorder as="button"
                 onClick={addQuestion}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 py-2 rounded-lg font-semibold text-white transition flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 hover:from-slate-950 hover:to-blue-700 py-2 rounded-lg font-semibold text-white transition flex items-center justify-center gap-2"
               >
                 <Plus className="w-4 h-4" />
                 Add Question
@@ -261,21 +261,21 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
             {/* Questions List */}
             {questions.length > 0 && (
               <div className="space-y-2">
-                <h4 className="font-semibold text-white/80">Added Questions ({questions.length})</h4>
+                <h4 className="font-semibold text-muted">Added Questions ({questions.length})</h4>
                 {questions.map((q, idx) => (
                   <div
                     key={q.id}
-                    className="bg-white/5 border border-white/10 rounded-lg p-4 flex items-start justify-between"
+                    className="rounded-lg border border-ui-border bg-white p-4 flex items-start justify-between dark:border-slate-800 dark:bg-slate-950"
                   >
                     <div className="flex-1">
                       <p className="text-sm font-medium">{idx + 1}. {q.text}</p>
-                      <p className="text-xs text-white/60 mt-1">
+                      <p className="text-xs text-muted mt-1">
                         {q.type === 'multiple-choice' ? '4 Options' : 'True/False'} • {q.points} points
                       </p>
                     </div>
                     <StarBorder as="button"
                       onClick={() => removeQuestion(idx)}
-                      className="p-2 hover:bg-red-500/20 rounded-lg transition text-red-400"
+                      className="p-2 hover:bg-red-500/10 rounded-lg transition text-red-500"
                     >
                       <Trash2 className="w-4 h-4" />
                     </StarBorder>
@@ -286,16 +286,16 @@ export const CreateQuizModal = ({ onClose, onSave }: CreateQuizProps) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
+          <div className="grid grid-cols-2 gap-4 pt-6 border-t border-ui-border dark:border-slate-800">
             <StarBorder as="button"
               onClick={onClose}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 py-3 rounded-xl font-semibold text-white transition"
+              className="bg-slate-100 hover:bg-slate-200 border border-ui-border py-3 rounded-xl font-semibold text-text-primary transition dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-700"
             >
               Cancel
             </StarBorder>
             <StarBorder as="button"
               onClick={handleSave}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 py-3 rounded-xl font-semibold text-white transition"
+              className="bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 hover:from-slate-950 hover:to-blue-700 py-3 rounded-xl font-semibold text-white transition"
             >
               Save Quiz
             </StarBorder>

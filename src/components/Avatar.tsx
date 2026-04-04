@@ -19,20 +19,20 @@ const sizeMap = {
 };
 
 const gradientMap: Record<string, string> = {
-  'from-indigo-500 to-purple-500': 'from-indigo-500 to-purple-500',
-  'from-purple-500 to-pink-500': 'from-purple-500 to-pink-500',
+  'from-slate-900 to-blue-600': 'from-slate-900 to-blue-600',
+  'from-slate-700 to-blue-500': 'from-slate-700 to-blue-500',
   'from-blue-500 to-indigo-500': 'from-blue-500 to-indigo-500',
-  'from-pink-500 to-rose-500': 'from-pink-500 to-rose-500',
+  'from-blue-500 to-slate-500': 'from-blue-500 to-slate-500',
   'from-amber-500 to-orange-500': 'from-amber-500 to-orange-500',
   'from-emerald-500 to-teal-500': 'from-emerald-500 to-teal-500',
   'from-cyan-500 to-blue-500': 'from-cyan-500 to-blue-500',
-  'from-violet-500 to-purple-500': 'from-violet-500 to-purple-500',
+  'from-slate-500 to-blue-500': 'from-slate-500 to-blue-500',
 };
 
 export const Avatar: React.FC<AvatarProps> = ({
   name,
   initials: initialsProp,
-  gradient = 'from-indigo-500 to-purple-500',
+  gradient = 'from-slate-900 to-blue-600',
   size = 'md',
   className = '',
   image,
@@ -47,7 +47,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     .slice(0, 2);
 
   const hasGradient = Object.keys(gradientMap).includes(gradient);
-  const gradientClass = hasGradient ? gradient : 'from-indigo-500 to-purple-500';
+  const gradientClass = hasGradient ? gradient : 'from-slate-900 to-blue-600';
 
   return (
     <motion.div
@@ -127,7 +127,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       ))}
       {remaining > 0 && (
         <div
-          className={`flex items-center justify-center rounded-full bg-gradient-to-br from-gray-500 to-gray-600 text-white font-bold text-xs border-2 border-white/30 ${sizeMap[size].container}`}
+          className={`flex items-center justify-center rounded-full bg-gradient-to-br from-slate-700 to-blue-600 text-white font-bold text-xs border-2 border-white/30 ${sizeMap[size].container}`}
         >
           +{remaining}
         </div>

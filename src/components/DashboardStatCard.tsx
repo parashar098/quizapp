@@ -15,7 +15,7 @@ const DashboardStatCardComponent = ({
   value,
   subtitle,
   icon: Icon,
-  colorClass = 'from-indigo-500 via-purple-500 to-pink-500',
+  colorClass = 'from-brand-100 to-brand-50',
 }: DashboardStatCardProps) => {
   return (
     <motion.div
@@ -27,8 +27,8 @@ const DashboardStatCardComponent = ({
           <p className="text-sm text-muted uppercase tracking-wide">{title}</p>
           <p className="text-3xl font-semibold text-text-primary dark:text-slate-100">{value}</p>
         </div>
-        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${colorClass} shadow-lg`}> 
-          <Icon className="h-6 w-6 text-white" />
+        <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${colorClass} border border-brand-200/60`}> 
+          <Icon className="h-6 w-6 text-brand-700" />
         </div>
       </div>
       <p className="mt-4 text-xs text-muted">{subtitle}</p>

@@ -62,7 +62,7 @@ export const Timer = ({ duration, onTimeUp }: TimerProps) => {
           className={`h-full rounded-full ${
             isLowTime
               ? 'bg-gradient-to-r from-red-500 to-orange-400'
-              : 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'
+              : 'bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600'
           }`}
         />
       </div>

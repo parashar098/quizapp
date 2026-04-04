@@ -14,9 +14,9 @@ const ManageStudents = lazy(() => import('./pages/ManageStudents').then((module)
 const Profile = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })));
 
 const AppLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-500 to-pink-500">
+  <div className="min-h-screen flex items-center justify-center bg-[#0b1220]">
     <div className="text-center">
-      <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse shadow-glass">
+      <div className="w-16 h-16 bg-white/10 backdrop-blur-lg rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse shadow-glass border border-white/10">
         <span className="text-white font-bold text-2xl">Q</span>
       </div>
       <p className="text-white/90">Loading GLA Exam...</p>

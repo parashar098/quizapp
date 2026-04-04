@@ -45,7 +45,7 @@ export const LeaderboardTable = ({ data }: LeaderboardTableProps) => {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(item.score, 100)}%` }}
-                      className="h-full rounded-full bg-gradient-to-r from-brand-500 via-purple-500 to-pink-500"
+                      className="h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-600"
                     />
                   </div>
                   <span className="mt-1 inline-block text-xs text-muted">{item.score}%</span>
